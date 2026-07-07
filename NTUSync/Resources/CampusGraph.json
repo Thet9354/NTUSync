@@ -1,0 +1,821 @@
+{
+ "formatVersion": 1,
+ "nodes": [
+  {
+   "id": "bldg.hive",
+   "displayName": "The Hive (LHN)",
+   "latitude": 1.34443,
+   "longitude": 103.68361,
+   "elevation": 32,
+   "isIndoor": false
+  },
+  {
+   "id": "bldg.lwn",
+   "displayName": "Lee Wee Nam Library",
+   "latitude": 1.34775,
+   "longitude": 103.68183,
+   "elevation": 40,
+   "isIndoor": false
+  },
+  {
+   "id": "bldg.spms",
+   "displayName": "SPMS",
+   "latitude": 1.34228,
+   "longitude": 103.6824,
+   "elevation": 30,
+   "isIndoor": false
+  },
+  {
+   "id": "bldg.sbs",
+   "displayName": "SBS",
+   "latitude": 1.3457,
+   "longitude": 103.6795,
+   "elevation": 36,
+   "isIndoor": false
+  },
+  {
+   "id": "bldg.adm",
+   "displayName": "ADM",
+   "latitude": 1.3496,
+   "longitude": 103.6837,
+   "elevation": 28,
+   "isIndoor": false
+  },
+  {
+   "id": "bldg.nie",
+   "displayName": "NIE",
+   "latitude": 1.3487,
+   "longitude": 103.6776,
+   "elevation": 36,
+   "isIndoor": false
+  },
+  {
+   "id": "bldg.wkw",
+   "displayName": "WKWSCI",
+   "latitude": 1.3427,
+   "longitude": 103.6787,
+   "elevation": 33,
+   "isIndoor": false
+  },
+  {
+   "id": "bldg.northspine",
+   "displayName": "North Spine Plaza",
+   "latitude": 1.3464,
+   "longitude": 103.6811,
+   "elevation": 38,
+   "isIndoor": false
+  },
+  {
+   "id": "bldg.southspine",
+   "displayName": "South Spine",
+   "latitude": 1.3424,
+   "longitude": 103.6845,
+   "elevation": 28,
+   "isIndoor": false
+  },
+  {
+   "id": "bldg.canteen2",
+   "displayName": "Canteen 2",
+   "latitude": 1.34395,
+   "longitude": 103.6849,
+   "elevation": 22,
+   "isIndoor": false
+  },
+  {
+   "id": "bldg.yunnan",
+   "displayName": "Yunnan Garden",
+   "latitude": 1.3392,
+   "longitude": 103.6797,
+   "elevation": 18,
+   "isIndoor": false
+  },
+  {
+   "id": "hall.1",
+   "displayName": "Hall 1",
+   "latitude": 1.347,
+   "longitude": 103.6868,
+   "elevation": 25,
+   "isIndoor": false
+  },
+  {
+   "id": "hall.2",
+   "displayName": "Hall 2",
+   "latitude": 1.3454,
+   "longitude": 103.6872,
+   "elevation": 22,
+   "isIndoor": false
+  },
+  {
+   "id": "hall.4",
+   "displayName": "Hall 4",
+   "latitude": 1.3443,
+   "longitude": 103.6876,
+   "elevation": 20,
+   "isIndoor": false
+  },
+  {
+   "id": "hall.6",
+   "displayName": "Hall 6",
+   "latitude": 1.3484,
+   "longitude": 103.6861,
+   "elevation": 24,
+   "isIndoor": false
+  },
+  {
+   "id": "indoor.lwn-b1",
+   "displayName": "LWN Basement B1",
+   "latitude": 1.3477,
+   "longitude": 103.6819,
+   "elevation": 34,
+   "isIndoor": true
+  },
+  {
+   "id": "indoor.hive-atrium",
+   "displayName": "Hive Atrium",
+   "latitude": 1.34448,
+   "longitude": 103.68355,
+   "elevation": 32,
+   "isIndoor": true
+  },
+  {
+   "id": "indoor.ns-underpass",
+   "displayName": "North Spine Underpass",
+   "latitude": 1.3461,
+   "longitude": 103.6805,
+   "elevation": 32,
+   "isIndoor": true
+  },
+  {
+   "id": "stop.hall1",
+   "displayName": "Hall 1 Bus Stop",
+   "latitude": 1.3469,
+   "longitude": 103.6864,
+   "elevation": 25,
+   "isIndoor": false
+  },
+  {
+   "id": "stop.hall2",
+   "displayName": "Hall 2 Bus Stop",
+   "latitude": 1.34535,
+   "longitude": 103.687,
+   "elevation": 22,
+   "isIndoor": false
+  },
+  {
+   "id": "stop.canteen2",
+   "displayName": "Canteen 2 Bus Stop",
+   "latitude": 1.3438,
+   "longitude": 103.6852,
+   "elevation": 22,
+   "isIndoor": false
+  },
+  {
+   "id": "stop.spms",
+   "displayName": "SPMS Bus Stop",
+   "latitude": 1.34215,
+   "longitude": 103.683,
+   "elevation": 29,
+   "isIndoor": false
+  },
+  {
+   "id": "stop.wkw",
+   "displayName": "WKWSCI Bus Stop",
+   "latitude": 1.3429,
+   "longitude": 103.679,
+   "elevation": 32,
+   "isIndoor": false
+  },
+  {
+   "id": "stop.nie",
+   "displayName": "NIE Bus Stop",
+   "latitude": 1.3486,
+   "longitude": 103.678,
+   "elevation": 35,
+   "isIndoor": false
+  },
+  {
+   "id": "stop.lwn",
+   "displayName": "LWN Bus Stop",
+   "latitude": 1.348,
+   "longitude": 103.6815,
+   "elevation": 39,
+   "isIndoor": false
+  },
+  {
+   "id": "stop.hive",
+   "displayName": "Hive Bus Stop",
+   "latitude": 1.3447,
+   "longitude": 103.6833,
+   "elevation": 31,
+   "isIndoor": false
+  },
+  {
+   "id": "jct.nanyang-crest",
+   "displayName": null,
+   "latitude": 1.3445,
+   "longitude": 103.6805,
+   "elevation": 42,
+   "isIndoor": false
+  },
+  {
+   "id": "jct.hall-spine",
+   "displayName": null,
+   "latitude": 1.3448,
+   "longitude": 103.6858,
+   "elevation": 24,
+   "isIndoor": false
+  }
+ ],
+ "edges": [
+  {
+   "from": "bldg.hive",
+   "to": "stop.hive",
+   "kind": "walk",
+   "lengthMetres": 54.8,
+   "elevationDelta": -1
+  },
+  {
+   "from": "stop.hive",
+   "to": "bldg.hive",
+   "kind": "walk",
+   "lengthMetres": 54.8,
+   "elevationDelta": 1
+  },
+  {
+   "from": "bldg.hive",
+   "to": "bldg.southspine",
+   "kind": "shelteredWalk",
+   "lengthMetres": 308.1,
+   "elevationDelta": -4
+  },
+  {
+   "from": "bldg.southspine",
+   "to": "bldg.hive",
+   "kind": "shelteredWalk",
+   "lengthMetres": 308.1,
+   "elevationDelta": 4
+  },
+  {
+   "from": "bldg.hive",
+   "to": "indoor.hive-atrium",
+   "kind": "indoor",
+   "lengthMetres": 9.6,
+   "elevationDelta": 0
+  },
+  {
+   "from": "indoor.hive-atrium",
+   "to": "bldg.hive",
+   "kind": "indoor",
+   "lengthMetres": 9.6,
+   "elevationDelta": 0
+  },
+  {
+   "from": "bldg.northspine",
+   "to": "bldg.hive",
+   "kind": "shelteredWalk",
+   "lengthMetres": 461.2,
+   "elevationDelta": -6
+  },
+  {
+   "from": "bldg.hive",
+   "to": "bldg.northspine",
+   "kind": "shelteredWalk",
+   "lengthMetres": 461.2,
+   "elevationDelta": 6
+  },
+  {
+   "from": "bldg.northspine",
+   "to": "bldg.lwn",
+   "kind": "shelteredWalk",
+   "lengthMetres": 213.3,
+   "elevationDelta": 2
+  },
+  {
+   "from": "bldg.lwn",
+   "to": "bldg.northspine",
+   "kind": "shelteredWalk",
+   "lengthMetres": 213.3,
+   "elevationDelta": -2
+  },
+  {
+   "from": "bldg.northspine",
+   "to": "jct.nanyang-crest",
+   "kind": "walk",
+   "lengthMetres": 265.9,
+   "elevationDelta": 4
+  },
+  {
+   "from": "jct.nanyang-crest",
+   "to": "bldg.northspine",
+   "kind": "walk",
+   "lengthMetres": 265.9,
+   "elevationDelta": -4
+  },
+  {
+   "from": "jct.nanyang-crest",
+   "to": "bldg.wkw",
+   "kind": "walk",
+   "lengthMetres": 339.6,
+   "elevationDelta": -9
+  },
+  {
+   "from": "bldg.wkw",
+   "to": "jct.nanyang-crest",
+   "kind": "walk",
+   "lengthMetres": 339.6,
+   "elevationDelta": 9
+  },
+  {
+   "from": "bldg.northspine",
+   "to": "indoor.ns-underpass",
+   "kind": "stairs",
+   "lengthMetres": 85.8,
+   "elevationDelta": -6
+  },
+  {
+   "from": "indoor.ns-underpass",
+   "to": "bldg.northspine",
+   "kind": "stairs",
+   "lengthMetres": 85.8,
+   "elevationDelta": 6
+  },
+  {
+   "from": "indoor.ns-underpass",
+   "to": "bldg.sbs",
+   "kind": "indoor",
+   "lengthMetres": 137.7,
+   "elevationDelta": 4
+  },
+  {
+   "from": "bldg.sbs",
+   "to": "indoor.ns-underpass",
+   "kind": "indoor",
+   "lengthMetres": 137.7,
+   "elevationDelta": -4
+  },
+  {
+   "from": "bldg.northspine",
+   "to": "bldg.sbs",
+   "kind": "walk",
+   "lengthMetres": 242.7,
+   "elevationDelta": -2
+  },
+  {
+   "from": "bldg.sbs",
+   "to": "bldg.northspine",
+   "kind": "walk",
+   "lengthMetres": 242.7,
+   "elevationDelta": 2
+  },
+  {
+   "from": "bldg.sbs",
+   "to": "bldg.nie",
+   "kind": "walk",
+   "lengthMetres": 473.8,
+   "elevationDelta": 0
+  },
+  {
+   "from": "bldg.nie",
+   "to": "bldg.sbs",
+   "kind": "walk",
+   "lengthMetres": 473.8,
+   "elevationDelta": 0
+  },
+  {
+   "from": "bldg.nie",
+   "to": "stop.nie",
+   "kind": "walk",
+   "lengthMetres": 52.7,
+   "elevationDelta": -1
+  },
+  {
+   "from": "stop.nie",
+   "to": "bldg.nie",
+   "kind": "walk",
+   "lengthMetres": 52.7,
+   "elevationDelta": 1
+  },
+  {
+   "from": "bldg.lwn",
+   "to": "stop.lwn",
+   "kind": "walk",
+   "lengthMetres": 52.9,
+   "elevationDelta": -1
+  },
+  {
+   "from": "stop.lwn",
+   "to": "bldg.lwn",
+   "kind": "walk",
+   "lengthMetres": 52.9,
+   "elevationDelta": 1
+  },
+  {
+   "from": "bldg.lwn",
+   "to": "indoor.lwn-b1",
+   "kind": "stairs",
+   "lengthMetres": 15.3,
+   "elevationDelta": -6
+  },
+  {
+   "from": "indoor.lwn-b1",
+   "to": "bldg.lwn",
+   "kind": "stairs",
+   "lengthMetres": 15.3,
+   "elevationDelta": 6
+  },
+  {
+   "from": "bldg.lwn",
+   "to": "bldg.adm",
+   "kind": "walk",
+   "lengthMetres": 365.6,
+   "elevationDelta": -12
+  },
+  {
+   "from": "bldg.adm",
+   "to": "bldg.lwn",
+   "kind": "walk",
+   "lengthMetres": 365.6,
+   "elevationDelta": 12
+  },
+  {
+   "from": "bldg.adm",
+   "to": "hall.6",
+   "kind": "walk",
+   "lengthMetres": 372.9,
+   "elevationDelta": -4
+  },
+  {
+   "from": "hall.6",
+   "to": "bldg.adm",
+   "kind": "walk",
+   "lengthMetres": 372.9,
+   "elevationDelta": 4
+  },
+  {
+   "from": "bldg.wkw",
+   "to": "stop.wkw",
+   "kind": "walk",
+   "lengthMetres": 46.1,
+   "elevationDelta": -1
+  },
+  {
+   "from": "stop.wkw",
+   "to": "bldg.wkw",
+   "kind": "walk",
+   "lengthMetres": 46.1,
+   "elevationDelta": 1
+  },
+  {
+   "from": "bldg.wkw",
+   "to": "bldg.yunnan",
+   "kind": "walk",
+   "lengthMetres": 505.9,
+   "elevationDelta": -15
+  },
+  {
+   "from": "bldg.yunnan",
+   "to": "bldg.wkw",
+   "kind": "walk",
+   "lengthMetres": 505.9,
+   "elevationDelta": 15
+  },
+  {
+   "from": "bldg.yunnan",
+   "to": "bldg.spms",
+   "kind": "walk",
+   "lengthMetres": 569.2,
+   "elevationDelta": 12
+  },
+  {
+   "from": "bldg.spms",
+   "to": "bldg.yunnan",
+   "kind": "walk",
+   "lengthMetres": 569.2,
+   "elevationDelta": -12
+  },
+  {
+   "from": "bldg.spms",
+   "to": "stop.spms",
+   "kind": "walk",
+   "lengthMetres": 78.5,
+   "elevationDelta": -1
+  },
+  {
+   "from": "stop.spms",
+   "to": "bldg.spms",
+   "kind": "walk",
+   "lengthMetres": 78.5,
+   "elevationDelta": 1
+  },
+  {
+   "from": "bldg.spms",
+   "to": "bldg.southspine",
+   "kind": "shelteredWalk",
+   "lengthMetres": 292.3,
+   "elevationDelta": -2
+  },
+  {
+   "from": "bldg.southspine",
+   "to": "bldg.spms",
+   "kind": "shelteredWalk",
+   "lengthMetres": 292.3,
+   "elevationDelta": 2
+  },
+  {
+   "from": "bldg.southspine",
+   "to": "bldg.canteen2",
+   "kind": "walk",
+   "lengthMetres": 213.6,
+   "elevationDelta": -6
+  },
+  {
+   "from": "bldg.canteen2",
+   "to": "bldg.southspine",
+   "kind": "walk",
+   "lengthMetres": 213.6,
+   "elevationDelta": 6
+  },
+  {
+   "from": "bldg.canteen2",
+   "to": "stop.canteen2",
+   "kind": "walk",
+   "lengthMetres": 42.9,
+   "elevationDelta": 0
+  },
+  {
+   "from": "stop.canteen2",
+   "to": "bldg.canteen2",
+   "kind": "walk",
+   "lengthMetres": 42.9,
+   "elevationDelta": 0
+  },
+  {
+   "from": "bldg.canteen2",
+   "to": "hall.4",
+   "kind": "walk",
+   "lengthMetres": 363.2,
+   "elevationDelta": -2
+  },
+  {
+   "from": "hall.4",
+   "to": "bldg.canteen2",
+   "kind": "walk",
+   "lengthMetres": 363.2,
+   "elevationDelta": 2
+  },
+  {
+   "from": "hall.4",
+   "to": "hall.2",
+   "kind": "walk",
+   "lengthMetres": 156.2,
+   "elevationDelta": 2
+  },
+  {
+   "from": "hall.2",
+   "to": "hall.4",
+   "kind": "walk",
+   "lengthMetres": 156.2,
+   "elevationDelta": -2
+  },
+  {
+   "from": "hall.2",
+   "to": "stop.hall2",
+   "kind": "walk",
+   "lengthMetres": 26.4,
+   "elevationDelta": 0
+  },
+  {
+   "from": "stop.hall2",
+   "to": "hall.2",
+   "kind": "walk",
+   "lengthMetres": 26.4,
+   "elevationDelta": 0
+  },
+  {
+   "from": "hall.2",
+   "to": "hall.1",
+   "kind": "walk",
+   "lengthMetres": 220.1,
+   "elevationDelta": 3
+  },
+  {
+   "from": "hall.1",
+   "to": "hall.2",
+   "kind": "walk",
+   "lengthMetres": 220.1,
+   "elevationDelta": -3
+  },
+  {
+   "from": "hall.1",
+   "to": "stop.hall1",
+   "kind": "walk",
+   "lengthMetres": 52.7,
+   "elevationDelta": 0
+  },
+  {
+   "from": "stop.hall1",
+   "to": "hall.1",
+   "kind": "walk",
+   "lengthMetres": 52.7,
+   "elevationDelta": 0
+  },
+  {
+   "from": "hall.1",
+   "to": "hall.6",
+   "kind": "walk",
+   "lengthMetres": 217.5,
+   "elevationDelta": -1
+  },
+  {
+   "from": "hall.6",
+   "to": "hall.1",
+   "kind": "walk",
+   "lengthMetres": 217.5,
+   "elevationDelta": 1
+  },
+  {
+   "from": "hall.6",
+   "to": "stop.hall1",
+   "kind": "walk",
+   "lengthMetres": 212.6,
+   "elevationDelta": 1
+  },
+  {
+   "from": "stop.hall1",
+   "to": "hall.6",
+   "kind": "walk",
+   "lengthMetres": 212.6,
+   "elevationDelta": -1
+  },
+  {
+   "from": "jct.hall-spine",
+   "to": "bldg.southspine",
+   "kind": "walk",
+   "lengthMetres": 364.2,
+   "elevationDelta": 4
+  },
+  {
+   "from": "bldg.southspine",
+   "to": "jct.hall-spine",
+   "kind": "walk",
+   "lengthMetres": 364.2,
+   "elevationDelta": -4
+  },
+  {
+   "from": "jct.hall-spine",
+   "to": "hall.2",
+   "kind": "walk",
+   "lengthMetres": 203.2,
+   "elevationDelta": -2
+  },
+  {
+   "from": "hall.2",
+   "to": "jct.hall-spine",
+   "kind": "walk",
+   "lengthMetres": 203.2,
+   "elevationDelta": 2
+  },
+  {
+   "from": "jct.hall-spine",
+   "to": "stop.hive",
+   "kind": "walk",
+   "lengthMetres": 333.8,
+   "elevationDelta": 7
+  },
+  {
+   "from": "stop.hive",
+   "to": "jct.hall-spine",
+   "kind": "walk",
+   "lengthMetres": 333.8,
+   "elevationDelta": -7
+  },
+  {
+   "from": "stop.hall1",
+   "to": "stop.hall2",
+   "kind": "shuttle",
+   "lengthMetres": 268.0,
+   "elevationDelta": -3,
+   "line": "loop-red"
+  },
+  {
+   "from": "stop.hall2",
+   "to": "stop.hall1",
+   "kind": "shuttle",
+   "lengthMetres": 268.0,
+   "elevationDelta": 3,
+   "line": "loop-blue"
+  },
+  {
+   "from": "stop.hall2",
+   "to": "stop.canteen2",
+   "kind": "shuttle",
+   "lengthMetres": 382.9,
+   "elevationDelta": 0,
+   "line": "loop-red"
+  },
+  {
+   "from": "stop.canteen2",
+   "to": "stop.hall2",
+   "kind": "shuttle",
+   "lengthMetres": 382.9,
+   "elevationDelta": 0,
+   "line": "loop-blue"
+  },
+  {
+   "from": "stop.canteen2",
+   "to": "stop.spms",
+   "kind": "shuttle",
+   "lengthMetres": 443.3,
+   "elevationDelta": 7,
+   "line": "loop-red"
+  },
+  {
+   "from": "stop.spms",
+   "to": "stop.canteen2",
+   "kind": "shuttle",
+   "lengthMetres": 443.3,
+   "elevationDelta": -7,
+   "line": "loop-blue"
+  },
+  {
+   "from": "stop.spms",
+   "to": "stop.wkw",
+   "kind": "shuttle",
+   "lengthMetres": 656.0,
+   "elevationDelta": 3,
+   "line": "loop-red"
+  },
+  {
+   "from": "stop.wkw",
+   "to": "stop.spms",
+   "kind": "shuttle",
+   "lengthMetres": 656.0,
+   "elevationDelta": -3,
+   "line": "loop-blue"
+  },
+  {
+   "from": "stop.wkw",
+   "to": "stop.nie",
+   "kind": "shuttle",
+   "lengthMetres": 933.1,
+   "elevationDelta": 3,
+   "line": "loop-red"
+  },
+  {
+   "from": "stop.nie",
+   "to": "stop.wkw",
+   "kind": "shuttle",
+   "lengthMetres": 933.1,
+   "elevationDelta": -3,
+   "line": "loop-blue"
+  },
+  {
+   "from": "stop.nie",
+   "to": "stop.lwn",
+   "kind": "shuttle",
+   "lengthMetres": 572.4,
+   "elevationDelta": 4,
+   "line": "loop-red"
+  },
+  {
+   "from": "stop.lwn",
+   "to": "stop.nie",
+   "kind": "shuttle",
+   "lengthMetres": 572.4,
+   "elevationDelta": -4,
+   "line": "loop-blue"
+  },
+  {
+   "from": "stop.lwn",
+   "to": "stop.hive",
+   "kind": "shuttle",
+   "lengthMetres": 606.0,
+   "elevationDelta": -8,
+   "line": "loop-red"
+  },
+  {
+   "from": "stop.hive",
+   "to": "stop.lwn",
+   "kind": "shuttle",
+   "lengthMetres": 606.0,
+   "elevationDelta": 8,
+   "line": "loop-blue"
+  },
+  {
+   "from": "stop.hive",
+   "to": "stop.hall1",
+   "kind": "shuttle",
+   "lengthMetres": 612.8,
+   "elevationDelta": -6,
+   "line": "loop-red"
+  },
+  {
+   "from": "stop.hall1",
+   "to": "stop.hive",
+   "kind": "shuttle",
+   "lengthMetres": 612.8,
+   "elevationDelta": 6,
+   "line": "loop-blue"
+  }
+ ]
+}

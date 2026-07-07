@@ -1,0 +1,11 @@
+{
+ "seedVersion": 1,
+ "benches": [
+  { "latitude": 1.34450, "longitude": 103.68355, "graphNodeID": "indoor.hive-atrium", "hasPower": true,  "isSheltered": true,  "note": "Hive atrium pods, cool and quiet before 10am" },
+  { "latitude": 1.34772, "longitude": 103.68188, "graphNodeID": "bldg.lwn",           "hasPower": true,  "isSheltered": true,  "note": "LWN level 3 window benches" },
+  { "latitude": 1.34638, "longitude": 103.68115, "graphNodeID": "bldg.northspine",    "hasPower": false, "isSheltered": true,  "note": "North Spine walkway high tables" },
+  { "latitude": 1.33925, "longitude": 103.67975, "graphNodeID": "bldg.yunnan",        "hasPower": false, "isSheltered": false, "note": "Yunnan Garden stone benches, sunset view" },
+  { "latitude": 1.34242, "longitude": 103.68448, "graphNodeID": "bldg.southspine",    "hasPower": true,  "isSheltered": true,  "note": "South Spine study cluster near vending machines" },
+  { "latitude": 1.34398, "longitude": 103.68485, "graphNodeID": "bldg.canteen2",      "hasPower": false, "isSheltered": true,  "note": "Canteen 2 back tables, off-peak only" }
+ ]
+}

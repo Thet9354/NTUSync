@@ -1,0 +1,30 @@
+{
+ "formatVersion": 1,
+ "validUntil": "2026-12-06",
+ "shuttleSpeedMetresPerSecond": 8.3,
+ "dwellSeconds": 20,
+ "lines": [
+  {
+   "id": "loop-red",
+   "displayName": "Campus Loop Red",
+   "periods": [
+    { "days": [2, 3, 4, 5, 6], "startMinute": 450, "endMinute": 570, "headwayMinutes": 5 },
+    { "days": [2, 3, 4, 5, 6], "startMinute": 570, "endMinute": 1020, "headwayMinutes": 8 },
+    { "days": [2, 3, 4, 5, 6], "startMinute": 1020, "endMinute": 1170, "headwayMinutes": 5 },
+    { "days": [2, 3, 4, 5, 6], "startMinute": 1170, "endMinute": 1380, "headwayMinutes": 15 },
+    { "days": [1, 7], "startMinute": 600, "endMinute": 1200, "headwayMinutes": 20 }
+   ]
+  },
+  {
+   "id": "loop-blue",
+   "displayName": "Campus Loop Blue",
+   "periods": [
+    { "days": [2, 3, 4, 5, 6], "startMinute": 450, "endMinute": 570, "headwayMinutes": 5 },
+    { "days": [2, 3, 4, 5, 6], "startMinute": 570, "endMinute": 1020, "headwayMinutes": 8 },
+    { "days": [2, 3, 4, 5, 6], "startMinute": 1020, "endMinute": 1170, "headwayMinutes": 5 },
+    { "days": [2, 3, 4, 5, 6], "startMinute": 1170, "endMinute": 1380, "headwayMinutes": 15 },
+    { "days": [1, 7], "startMinute": 600, "endMinute": 1200, "headwayMinutes": 20 }
+   ]
+  }
+ ]
+}

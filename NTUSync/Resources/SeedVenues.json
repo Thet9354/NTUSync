@@ -1,0 +1,13 @@
+{
+ "seedVersion": 1,
+ "venues": [
+  { "shortName": "SPMS-LT1",   "displayName": "SPMS Lecture Theatre 1",   "latitude": 1.34228, "longitude": 103.68240, "graphNodeID": "bldg.spms",          "isIndoor": false },
+  { "shortName": "SPMS-TR+15", "displayName": "SPMS Tutorial Room +15",   "latitude": 1.34230, "longitude": 103.68245, "graphNodeID": "bldg.spms",          "isIndoor": true },
+  { "shortName": "HIVE-TR29",  "displayName": "The Hive Tutorial Room 29","latitude": 1.34448, "longitude": 103.68355, "graphNodeID": "indoor.hive-atrium", "isIndoor": true },
+  { "shortName": "NS-LT2A",    "displayName": "North Spine LT2A",         "latitude": 1.34640, "longitude": 103.68110, "graphNodeID": "bldg.northspine",    "isIndoor": false },
+  { "shortName": "LWN-GSR3",   "displayName": "LWN Group Study Room 3",   "latitude": 1.34775, "longitude": 103.68183, "graphNodeID": "bldg.lwn",           "isIndoor": true },
+  { "shortName": "LWN-B1",     "displayName": "LWN Basement Study Area",  "latitude": 1.34770, "longitude": 103.68190, "graphNodeID": "indoor.lwn-b1",      "isIndoor": true },
+  { "shortName": "SBS-CR3",    "displayName": "SBS Classroom 3",          "latitude": 1.34570, "longitude": 103.67950, "graphNodeID": "bldg.sbs",           "isIndoor": false },
+  { "shortName": "WKW-SR2",    "displayName": "WKWSCI Seminar Room 2",    "latitude": 1.34270, "longitude": 103.67870, "graphNodeID": "bldg.wkw",           "isIndoor": false }
+ ]
+}
