@@ -3,7 +3,7 @@ import Foundation
 /// A customizable travel-cost matrix. Edge cost is
 /// `time · (1 + rainAversion·exposure + slopeAversion·max(0, Δh/len))`,
 /// plus `shuttleBoardingPenalty` once per boarding.
-nonisolated struct TravelProfile: Hashable, Sendable, Identifiable {
+nonisolated struct TravelProfile: Hashable, Sendable, Identifiable, Codable {
     let id: String
     let displayName: String
     var walkSpeedMetresPerSecond: Double

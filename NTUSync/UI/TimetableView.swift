@@ -6,6 +6,7 @@ struct TimetableView: View {
     @Query(sort: \Course.code) private var courses: [Course]
     @Query private var settings: [UserSettings]
     @State private var showingAddCourse = false
+    @State private var showingSettings = false
 
     var body: some View {
         NavigationStack {
@@ -22,9 +23,21 @@ struct TimetableView: View {
                     }
                 }
                 ForEach(courses) { course in
-                    Section("\(course.code) · \(course.title)") {
+                    Section {
                         ForEach(course.sessions.sorted { ($0.dayOfWeek, $0.startMinutes) < ($1.dayOfWeek, $1.startMinutes) }) { session in
                             SessionRow(session: session)
+                        }
+                    } header: {
+                        HStack {
+                            Text("\(course.code) · \(course.title)")
+                            Spacer()
+                            Button(role: .destructive) {
+                                modelContext.delete(course)
+                            } label: {
+                                Image(systemName: "trash")
+                            }
+                            .buttonStyle(.borderless)
+                            .accessibilityLabel("Delete \(course.code)")
                         }
                     }
                 }
@@ -38,10 +51,18 @@ struct TimetableView: View {
             }
             .navigationTitle("Timetable")
             .toolbar {
-                Button("Add course", systemImage: "plus") { showingAddCourse = true }
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Settings", systemImage: "gearshape") { showingSettings = true }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Add course", systemImage: "plus") { showingAddCourse = true }
+                }
             }
             .sheet(isPresented: $showingAddCourse) {
                 AddCourseView()
+            }
+            .sheet(isPresented: $showingSettings) {
+                SettingsView()
             }
         }
     }

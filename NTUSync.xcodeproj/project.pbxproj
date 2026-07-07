@@ -167,8 +167,8 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				AB12CD000000000000000002 /* NTUSyncWidgets */,
 				AB12CD000000000000000001 /* Shared */,
+				AB12CD000000000000000002 /* NTUSyncWidgets */,
 			);
 			name = NTUSyncWidgets;
 			packageProductDependencies = (
@@ -192,8 +192,8 @@
 				AB12CD00000000000000000C /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				D385EC7E2FFC157900B5B481 /* NTUSync */,
 				AB12CD000000000000000001 /* Shared */,
+				D385EC7E2FFC157900B5B481 /* NTUSync */,
 			);
 			name = NTUSync;
 			packageProductDependencies = (
@@ -564,6 +564,7 @@
 				DEVELOPMENT_TEAM = K8FKWBYV9S;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "NTUSync uses your location to track trip progress across campus and trigger arrival updates.";
 				INFOPLIST_KEY_NSMotionUsageDescription = "NTUSync uses motion data to estimate your position indoors where GPS is unavailable and to count steps during trips.";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
@@ -599,6 +600,7 @@
 				DEVELOPMENT_TEAM = K8FKWBYV9S;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "NTUSync uses your location to track trip progress across campus and trigger arrival updates.";
 				INFOPLIST_KEY_NSMotionUsageDescription = "NTUSync uses motion data to estimate your position indoors where GPS is unavailable and to count steps during trips.";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;

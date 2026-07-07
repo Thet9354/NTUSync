@@ -29,12 +29,57 @@ final class AppEnvironment {
         location = LocationService()
         pedometer = PedometerService()
 
-        pedometer.onUpdate = { [tripSession] steps, _ in
+        pedometer.onUpdate = { [tripSession] steps, distanceDelta in
             tripSession.recordSteps(steps)
+            tripSession.recordDistanceDelta(distanceDelta)
+        }
+        tripSession.nodeLocator = { [graph] node in
+            graph.nodes[node]?.coordinate
+        }
+        location.onFix = { [tripSession] fix, accuracy in
+            tripSession.ingest(fix: fix, accuracy: accuracy)
+        }
+        location.onGPSDenialChange = { [tripSession] denied in
+            tripSession.setGPSDenied(denied)
+        }
+        tripSession.onReplanNeeded = { [weak self] fix in
+            self?.replanActiveTrip(from: fix)
         }
     }
 
     func displayName(for node: NodeID) -> String {
         graph.nodes[node]?.displayName ?? node.rawValue
+    }
+
+    /// Begin per-trip sensing; called when a trip starts.
+    func beginTripSensing() {
+        location.requestPermission()
+        location.setTier(.cruise)
+        location.startUpdates()
+        pedometer.start()
+    }
+
+    /// Tear down per-trip sensing; called when a trip ends.
+    func endTripSensing() {
+        pedometer.stop()
+        location.setTier(.idle)
+        location.stopUpdates()
+    }
+
+    /// Re-route the active trip from a fresh fix (§5.1 re-acquisition rule).
+    private func replanActiveTrip(from fix: GeoPoint) {
+        guard let destination = tripSession.route?.destination else { return }
+        let profile = tripSession.profile ?? .fastest
+        Task {
+            guard let origin = await routeEngine.nearestNode(to: fix, where: { !$0.isIndoor }) else { return }
+            do {
+                let newRoute = try await routeEngine.route(
+                    RouteQuery(origin: origin, destination: destination, departure: .now, profile: profile)
+                )
+                await tripSession.updateRoute(newRoute)
+            } catch {
+                Logger.routing.error("mid-trip replan failed: \(String(describing: error))")
+            }
+        }
     }
 }

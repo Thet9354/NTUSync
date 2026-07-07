@@ -117,6 +117,17 @@ final class LiveActivityCoordinator {
         Logger.liveActivity.info("began activity \(id) [\(attributes.routeSummary)]")
     }
 
+    /// Reattach to an activity that survived an app relaunch. Returns false
+    /// when the activity no longer exists (it was dismissed or expired).
+    func rebind(activityID id: String) -> Bool {
+        guard gateway.existingActivityIDs().contains(id) else { return false }
+        activityID = id
+        lastPushedState = nil   // force the next push through
+        pushCount = 1
+        Logger.liveActivity.info("rebound to surviving activity \(id)")
+        return true
+    }
+
     func push(_ state: TripActivityAttributes.ContentState, staleAfter: TimeInterval = 90) async {
         guard let id = activityID else { return }
         guard state != lastPushedState else {

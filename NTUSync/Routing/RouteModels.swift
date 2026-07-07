@@ -7,7 +7,7 @@ nonisolated struct RouteQuery: Hashable, Sendable {
     var profile: TravelProfile
 }
 
-nonisolated struct RouteLeg: Hashable, Sendable, Identifiable {
+nonisolated struct RouteLeg: Hashable, Sendable, Identifiable, Codable {
     let kind: EdgeKind
     let line: ShuttleLineID?
     let nodes: [NodeID]            // node sequence including both endpoints
@@ -19,7 +19,7 @@ nonisolated struct RouteLeg: Hashable, Sendable, Identifiable {
     var id: String { "\(kind.rawValue)-\(nodes.first?.rawValue ?? "")-\(nodes.last?.rawValue ?? "")" }
 }
 
-nonisolated struct Route: Hashable, Sendable {
+nonisolated struct Route: Hashable, Sendable, Codable {
     let legs: [RouteLeg]
     let departureTime: Date
     let arrivalTime: Date

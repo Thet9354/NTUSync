@@ -89,9 +89,8 @@ struct RoutePlannerView: View {
     private func startTrip(_ route: Route) async {
         let from = route.origin.map(env.displayName(for:)) ?? "?"
         let to = route.destination.map(env.displayName(for:)) ?? "?"
-        try? await env.tripSession.start(route: route, summary: "\(from) → \(to)", nextClass: nil)
-        env.location.setTier(.cruise)
-        env.pedometer.start()
+        try? await env.tripSession.start(route: route, summary: "\(from) → \(to)", nextClass: nil, profile: profile)
+        env.beginTripSensing()
     }
 }
 
@@ -161,6 +160,12 @@ struct ActiveTripSection: View {
 
     var body: some View {
         Section("Active trip · \(env.tripSession.phase?.rawValue ?? "")") {
+            if let progress = env.tripSession.progressFraction {
+                ProgressView(value: progress) {
+                    Text(env.tripSession.isDeadReckoning ? "Progress (approximate — indoors)" : "Progress")
+                        .font(.caption)
+                }
+            }
             if let phase = env.tripSession.phase,
                let nexts = TripStateMachine.allowedTransitions[phase], !nexts.isEmpty {
                 ForEach(Array(nexts).sorted { $0.rawValue < $1.rawValue }, id: \.self) { next in
@@ -172,8 +177,7 @@ struct ActiveTripSection: View {
             Button("End trip", role: .destructive) {
                 Task {
                     await env.tripSession.end()
-                    env.pedometer.stop()
-                    env.location.setTier(.idle)
+                    env.endTripSensing()
                 }
             }
         }

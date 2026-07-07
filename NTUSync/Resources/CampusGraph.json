@@ -224,6 +224,142 @@
    "longitude": 103.6858,
    "elevation": 24,
    "isIndoor": false
+  },
+  {
+   "id": "bldg.gaia",
+   "displayName": "NBS @ Gaia",
+   "latitude": 1.3426,
+   "longitude": 103.6808,
+   "elevation": 26,
+   "isIndoor": false
+  },
+  {
+   "id": "bldg.scse",
+   "displayName": "SCSE (N4)",
+   "latitude": 1.3456,
+   "longitude": 103.6824,
+   "elevation": 40,
+   "isIndoor": false
+  },
+  {
+   "id": "bldg.mae",
+   "displayName": "MAE (N3)",
+   "latitude": 1.346,
+   "longitude": 103.6818,
+   "elevation": 39,
+   "isIndoor": false
+  },
+  {
+   "id": "bldg.eee",
+   "displayName": "EEE (S1)",
+   "latitude": 1.3428,
+   "longitude": 103.6817,
+   "elevation": 29,
+   "isIndoor": false
+  },
+  {
+   "id": "bldg.hss",
+   "displayName": "HSS",
+   "latitude": 1.3429,
+   "longitude": 103.6857,
+   "elevation": 26,
+   "isIndoor": false
+  },
+  {
+   "id": "bldg.canteen1",
+   "displayName": "Canteen 1",
+   "latitude": 1.3462,
+   "longitude": 103.6869,
+   "elevation": 24,
+   "isIndoor": false
+  },
+  {
+   "id": "hall.3",
+   "displayName": "Hall 3",
+   "latitude": 1.3439,
+   "longitude": 103.6868,
+   "elevation": 21,
+   "isIndoor": false
+  },
+  {
+   "id": "hall.5",
+   "displayName": "Hall 5",
+   "latitude": 1.3448,
+   "longitude": 103.6882,
+   "elevation": 19,
+   "isIndoor": false
+  },
+  {
+   "id": "hall.8",
+   "displayName": "Hall 8",
+   "latitude": 1.3496,
+   "longitude": 103.6869,
+   "elevation": 22,
+   "isIndoor": false
+  },
+  {
+   "id": "hall.9",
+   "displayName": "Hall 9",
+   "latitude": 1.3505,
+   "longitude": 103.6874,
+   "elevation": 20,
+   "isIndoor": false
+  },
+  {
+   "id": "bldg.northhill",
+   "displayName": "North Hill Halls",
+   "latitude": 1.353,
+   "longitude": 103.6863,
+   "elevation": 30,
+   "isIndoor": false
+  },
+  {
+   "id": "bldg.pioneer",
+   "displayName": "Pioneer Hall",
+   "latitude": 1.342,
+   "longitude": 103.6883,
+   "elevation": 18,
+   "isIndoor": false
+  },
+  {
+   "id": "bldg.crescent",
+   "displayName": "Crescent Hall",
+   "latitude": 1.3416,
+   "longitude": 103.6878,
+   "elevation": 18,
+   "isIndoor": false
+  },
+  {
+   "id": "stop.hall8",
+   "displayName": "Hall 8 Bus Stop",
+   "latitude": 1.3495,
+   "longitude": 103.6866,
+   "elevation": 22,
+   "isIndoor": false
+  },
+  {
+   "id": "stop.northhill",
+   "displayName": "North Hill Bus Stop",
+   "latitude": 1.3529,
+   "longitude": 103.686,
+   "elevation": 29,
+   "isIndoor": false
+  },
+  {
+   "id": "stop.pioneer",
+   "displayName": "Pioneer Hall Bus Stop",
+   "latitude": 1.3421,
+   "longitude": 103.688,
+   "elevation": 18,
+   "isIndoor": false
+  },
+  {
+   "id": "stop.gaia",
+   "displayName": "Gaia Bus Stop",
+   "latitude": 1.3425,
+   "longitude": 103.6806,
+   "elevation": 25,
+   "isIndoor": false
   }
  ],
  "edges": [
@@ -690,92 +826,388 @@
    "elevationDelta": -7
   },
   {
+   "from": "bldg.canteen1",
+   "to": "hall.1",
+   "kind": "walk",
+   "lengthMetres": 103.1,
+   "elevationDelta": 1
+  },
+  {
+   "from": "hall.1",
+   "to": "bldg.canteen1",
+   "kind": "walk",
+   "lengthMetres": 103.1,
+   "elevationDelta": -1
+  },
+  {
+   "from": "bldg.canteen1",
+   "to": "hall.2",
+   "kind": "walk",
+   "lengthMetres": 109.3,
+   "elevationDelta": -2
+  },
+  {
+   "from": "hall.2",
+   "to": "bldg.canteen1",
+   "kind": "walk",
+   "lengthMetres": 109.3,
+   "elevationDelta": 2
+  },
+  {
+   "from": "hall.3",
+   "to": "hall.4",
+   "kind": "walk",
+   "lengthMetres": 119.3,
+   "elevationDelta": -1
+  },
+  {
+   "from": "hall.4",
+   "to": "hall.3",
+   "kind": "walk",
+   "lengthMetres": 119.3,
+   "elevationDelta": 1
+  },
+  {
+   "from": "hall.3",
+   "to": "bldg.canteen2",
+   "kind": "walk",
+   "lengthMetres": 253.5,
+   "elevationDelta": 1
+  },
+  {
+   "from": "bldg.canteen2",
+   "to": "hall.3",
+   "kind": "walk",
+   "lengthMetres": 253.5,
+   "elevationDelta": -1
+  },
+  {
+   "from": "hall.5",
+   "to": "hall.4",
+   "kind": "walk",
+   "lengthMetres": 104.2,
+   "elevationDelta": 1
+  },
+  {
+   "from": "hall.4",
+   "to": "hall.5",
+   "kind": "walk",
+   "lengthMetres": 104.2,
+   "elevationDelta": -1
+  },
+  {
+   "from": "hall.5",
+   "to": "bldg.pioneer",
+   "kind": "walk",
+   "lengthMetres": 389.4,
+   "elevationDelta": -1
+  },
+  {
+   "from": "bldg.pioneer",
+   "to": "hall.5",
+   "kind": "walk",
+   "lengthMetres": 389.4,
+   "elevationDelta": 1
+  },
+  {
+   "from": "hall.8",
+   "to": "stop.hall8",
+   "kind": "walk",
+   "lengthMetres": 40.4,
+   "elevationDelta": 0
+  },
+  {
+   "from": "stop.hall8",
+   "to": "hall.8",
+   "kind": "walk",
+   "lengthMetres": 40.4,
+   "elevationDelta": 0
+  },
+  {
+   "from": "hall.8",
+   "to": "hall.6",
+   "kind": "walk",
+   "lengthMetres": 200.4,
+   "elevationDelta": 2
+  },
+  {
+   "from": "hall.6",
+   "to": "hall.8",
+   "kind": "walk",
+   "lengthMetres": 200.4,
+   "elevationDelta": -2
+  },
+  {
+   "from": "hall.9",
+   "to": "hall.8",
+   "kind": "walk",
+   "lengthMetres": 137.4,
+   "elevationDelta": 2
+  },
+  {
+   "from": "hall.8",
+   "to": "hall.9",
+   "kind": "walk",
+   "lengthMetres": 137.4,
+   "elevationDelta": -2
+  },
+  {
+   "from": "bldg.northhill",
+   "to": "stop.northhill",
+   "kind": "walk",
+   "lengthMetres": 40.4,
+   "elevationDelta": -1
+  },
+  {
+   "from": "stop.northhill",
+   "to": "bldg.northhill",
+   "kind": "walk",
+   "lengthMetres": 40.4,
+   "elevationDelta": 1
+  },
+  {
+   "from": "bldg.northhill",
+   "to": "hall.9",
+   "kind": "walk",
+   "lengthMetres": 379.6,
+   "elevationDelta": -10
+  },
+  {
+   "from": "hall.9",
+   "to": "bldg.northhill",
+   "kind": "walk",
+   "lengthMetres": 379.6,
+   "elevationDelta": 10
+  },
+  {
+   "from": "bldg.pioneer",
+   "to": "stop.pioneer",
+   "kind": "walk",
+   "lengthMetres": 40.4,
+   "elevationDelta": 0
+  },
+  {
+   "from": "stop.pioneer",
+   "to": "bldg.pioneer",
+   "kind": "walk",
+   "lengthMetres": 40.4,
+   "elevationDelta": 0
+  },
+  {
+   "from": "bldg.crescent",
+   "to": "bldg.pioneer",
+   "kind": "walk",
+   "lengthMetres": 81.9,
+   "elevationDelta": 0
+  },
+  {
+   "from": "bldg.pioneer",
+   "to": "bldg.crescent",
+   "kind": "walk",
+   "lengthMetres": 81.9,
+   "elevationDelta": 0
+  },
+  {
+   "from": "bldg.crescent",
+   "to": "hall.4",
+   "kind": "walk",
+   "lengthMetres": 376.3,
+   "elevationDelta": 2
+  },
+  {
+   "from": "hall.4",
+   "to": "bldg.crescent",
+   "kind": "walk",
+   "lengthMetres": 376.3,
+   "elevationDelta": -2
+  },
+  {
+   "from": "bldg.gaia",
+   "to": "stop.gaia",
+   "kind": "walk",
+   "lengthMetres": 28.6,
+   "elevationDelta": -1
+  },
+  {
+   "from": "stop.gaia",
+   "to": "bldg.gaia",
+   "kind": "walk",
+   "lengthMetres": 28.6,
+   "elevationDelta": 1
+  },
+  {
+   "from": "bldg.gaia",
+   "to": "bldg.eee",
+   "kind": "walk",
+   "lengthMetres": 123.0,
+   "elevationDelta": 3
+  },
+  {
+   "from": "bldg.eee",
+   "to": "bldg.gaia",
+   "kind": "walk",
+   "lengthMetres": 123.0,
+   "elevationDelta": -3
+  },
+  {
+   "from": "bldg.eee",
+   "to": "bldg.southspine",
+   "kind": "walk",
+   "lengthMetres": 393.0,
+   "elevationDelta": -1
+  },
+  {
+   "from": "bldg.southspine",
+   "to": "bldg.eee",
+   "kind": "walk",
+   "lengthMetres": 393.0,
+   "elevationDelta": 1
+  },
+  {
+   "from": "bldg.gaia",
+   "to": "bldg.yunnan",
+   "kind": "walk",
+   "lengthMetres": 496.7,
+   "elevationDelta": -8
+  },
+  {
+   "from": "bldg.yunnan",
+   "to": "bldg.gaia",
+   "kind": "walk",
+   "lengthMetres": 496.7,
+   "elevationDelta": 8
+  },
+  {
+   "from": "bldg.scse",
+   "to": "bldg.northspine",
+   "kind": "shelteredWalk",
+   "lengthMetres": 212.1,
+   "elevationDelta": -2
+  },
+  {
+   "from": "bldg.northspine",
+   "to": "bldg.scse",
+   "kind": "shelteredWalk",
+   "lengthMetres": 212.1,
+   "elevationDelta": 2
+  },
+  {
+   "from": "bldg.scse",
+   "to": "bldg.hive",
+   "kind": "shelteredWalk",
+   "lengthMetres": 233.9,
+   "elevationDelta": -8
+  },
+  {
+   "from": "bldg.hive",
+   "to": "bldg.scse",
+   "kind": "shelteredWalk",
+   "lengthMetres": 233.9,
+   "elevationDelta": 8
+  },
+  {
+   "from": "bldg.mae",
+   "to": "bldg.northspine",
+   "kind": "shelteredWalk",
+   "lengthMetres": 107.6,
+   "elevationDelta": -1
+  },
+  {
+   "from": "bldg.northspine",
+   "to": "bldg.mae",
+   "kind": "shelteredWalk",
+   "lengthMetres": 107.6,
+   "elevationDelta": 1
+  },
+  {
+   "from": "bldg.mae",
+   "to": "bldg.scse",
+   "kind": "shelteredWalk",
+   "lengthMetres": 96.2,
+   "elevationDelta": 1
+  },
+  {
+   "from": "bldg.scse",
+   "to": "bldg.mae",
+   "kind": "shelteredWalk",
+   "lengthMetres": 96.2,
+   "elevationDelta": -1
+  },
+  {
+   "from": "bldg.hss",
+   "to": "bldg.southspine",
+   "kind": "shelteredWalk",
+   "lengthMetres": 173.4,
+   "elevationDelta": 2
+  },
+  {
+   "from": "bldg.southspine",
+   "to": "bldg.hss",
+   "kind": "shelteredWalk",
+   "lengthMetres": 173.4,
+   "elevationDelta": -2
+  },
+  {
+   "from": "bldg.hss",
+   "to": "bldg.canteen2",
+   "kind": "walk",
+   "lengthMetres": 176.1,
+   "elevationDelta": -4
+  },
+  {
+   "from": "bldg.canteen2",
+   "to": "bldg.hss",
+   "kind": "walk",
+   "lengthMetres": 176.1,
+   "elevationDelta": 4
+  },
+  {
    "from": "stop.hall1",
-   "to": "stop.hall2",
+   "to": "stop.hall8",
    "kind": "shuttle",
-   "lengthMetres": 268.0,
+   "lengthMetres": 420.4,
    "elevationDelta": -3,
    "line": "loop-red"
   },
   {
-   "from": "stop.hall2",
+   "from": "stop.hall8",
    "to": "stop.hall1",
    "kind": "shuttle",
-   "lengthMetres": 268.0,
+   "lengthMetres": 420.4,
    "elevationDelta": 3,
    "line": "loop-blue"
   },
   {
-   "from": "stop.hall2",
-   "to": "stop.canteen2",
+   "from": "stop.hall8",
+   "to": "stop.northhill",
    "kind": "shuttle",
-   "lengthMetres": 382.9,
-   "elevationDelta": 0,
-   "line": "loop-red"
-  },
-  {
-   "from": "stop.canteen2",
-   "to": "stop.hall2",
-   "kind": "shuttle",
-   "lengthMetres": 382.9,
-   "elevationDelta": 0,
-   "line": "loop-blue"
-  },
-  {
-   "from": "stop.canteen2",
-   "to": "stop.spms",
-   "kind": "shuttle",
-   "lengthMetres": 443.3,
+   "lengthMetres": 556.7,
    "elevationDelta": 7,
    "line": "loop-red"
   },
   {
-   "from": "stop.spms",
-   "to": "stop.canteen2",
+   "from": "stop.northhill",
+   "to": "stop.hall8",
    "kind": "shuttle",
-   "lengthMetres": 443.3,
+   "lengthMetres": 556.7,
    "elevationDelta": -7,
    "line": "loop-blue"
   },
   {
-   "from": "stop.spms",
-   "to": "stop.wkw",
-   "kind": "shuttle",
-   "lengthMetres": 656.0,
-   "elevationDelta": 3,
-   "line": "loop-red"
-  },
-  {
-   "from": "stop.wkw",
-   "to": "stop.spms",
-   "kind": "shuttle",
-   "lengthMetres": 656.0,
-   "elevationDelta": -3,
-   "line": "loop-blue"
-  },
-  {
-   "from": "stop.wkw",
-   "to": "stop.nie",
-   "kind": "shuttle",
-   "lengthMetres": 933.1,
-   "elevationDelta": 3,
-   "line": "loop-red"
-  },
-  {
-   "from": "stop.nie",
-   "to": "stop.wkw",
-   "kind": "shuttle",
-   "lengthMetres": 933.1,
-   "elevationDelta": -3,
-   "line": "loop-blue"
-  },
-  {
-   "from": "stop.nie",
+   "from": "stop.northhill",
    "to": "stop.lwn",
    "kind": "shuttle",
-   "lengthMetres": 572.4,
-   "elevationDelta": 4,
+   "lengthMetres": 1072.5,
+   "elevationDelta": 10,
    "line": "loop-red"
+  },
+  {
+   "from": "stop.lwn",
+   "to": "stop.northhill",
+   "kind": "shuttle",
+   "lengthMetres": 1072.5,
+   "elevationDelta": -10,
+   "line": "loop-blue"
   },
   {
    "from": "stop.lwn",
@@ -783,22 +1215,126 @@
    "kind": "shuttle",
    "lengthMetres": 572.4,
    "elevationDelta": -4,
+   "line": "loop-red"
+  },
+  {
+   "from": "stop.nie",
+   "to": "stop.lwn",
+   "kind": "shuttle",
+   "lengthMetres": 572.4,
+   "elevationDelta": 4,
    "line": "loop-blue"
   },
   {
-   "from": "stop.lwn",
+   "from": "stop.nie",
+   "to": "stop.wkw",
+   "kind": "shuttle",
+   "lengthMetres": 933.1,
+   "elevationDelta": -3,
+   "line": "loop-red"
+  },
+  {
+   "from": "stop.wkw",
+   "to": "stop.nie",
+   "kind": "shuttle",
+   "lengthMetres": 933.1,
+   "elevationDelta": 3,
+   "line": "loop-blue"
+  },
+  {
+   "from": "stop.wkw",
+   "to": "stop.gaia",
+   "kind": "shuttle",
+   "lengthMetres": 265.8,
+   "elevationDelta": -7,
+   "line": "loop-red"
+  },
+  {
+   "from": "stop.gaia",
+   "to": "stop.wkw",
+   "kind": "shuttle",
+   "lengthMetres": 265.8,
+   "elevationDelta": 7,
+   "line": "loop-blue"
+  },
+  {
+   "from": "stop.gaia",
+   "to": "stop.spms",
+   "kind": "shuttle",
+   "lengthMetres": 390.9,
+   "elevationDelta": 4,
+   "line": "loop-red"
+  },
+  {
+   "from": "stop.spms",
+   "to": "stop.gaia",
+   "kind": "shuttle",
+   "lengthMetres": 390.9,
+   "elevationDelta": -4,
+   "line": "loop-blue"
+  },
+  {
+   "from": "stop.spms",
+   "to": "stop.pioneer",
+   "kind": "shuttle",
+   "lengthMetres": 806.0,
+   "elevationDelta": -11,
+   "line": "loop-red"
+  },
+  {
+   "from": "stop.pioneer",
+   "to": "stop.spms",
+   "kind": "shuttle",
+   "lengthMetres": 806.0,
+   "elevationDelta": 11,
+   "line": "loop-blue"
+  },
+  {
+   "from": "stop.pioneer",
+   "to": "stop.canteen2",
+   "kind": "shuttle",
+   "lengthMetres": 528.0,
+   "elevationDelta": 4,
+   "line": "loop-red"
+  },
+  {
+   "from": "stop.canteen2",
+   "to": "stop.pioneer",
+   "kind": "shuttle",
+   "lengthMetres": 528.0,
+   "elevationDelta": -4,
+   "line": "loop-blue"
+  },
+  {
+   "from": "stop.canteen2",
+   "to": "stop.hall2",
+   "kind": "shuttle",
+   "lengthMetres": 382.9,
+   "elevationDelta": 0,
+   "line": "loop-red"
+  },
+  {
+   "from": "stop.hall2",
+   "to": "stop.canteen2",
+   "kind": "shuttle",
+   "lengthMetres": 382.9,
+   "elevationDelta": 0,
+   "line": "loop-blue"
+  },
+  {
+   "from": "stop.hall2",
    "to": "stop.hive",
    "kind": "shuttle",
-   "lengthMetres": 606.0,
-   "elevationDelta": -8,
+   "lengthMetres": 605.5,
+   "elevationDelta": 9,
    "line": "loop-red"
   },
   {
    "from": "stop.hive",
-   "to": "stop.lwn",
+   "to": "stop.hall2",
    "kind": "shuttle",
-   "lengthMetres": 606.0,
-   "elevationDelta": 8,
+   "lengthMetres": 605.5,
+   "elevationDelta": -9,
    "line": "loop-blue"
   },
   {

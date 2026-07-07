@@ -38,6 +38,9 @@ final class LocationService: NSObject, CLLocationManagerDelegate {
     private(set) var authorization: CLAuthorizationStatus = .notDetermined
     private(set) var tier: LocationTier = .idle
 
+    var onFix: ((_ fix: GeoPoint, _ accuracy: Double) -> Void)?
+    var onGPSDenialChange: ((_ denied: Bool) -> Void)?
+
     override init() {
         super.init()
         manager.delegate = self
@@ -82,7 +85,9 @@ final class LocationService: NSObject, CLLocationManagerDelegate {
             if denied != self.isGPSDenied {
                 self.isGPSDenied = denied
                 Logger.location.notice("gps \(denied ? "denied -> dead reckoning engaged" : "reacquired")")
+                self.onGPSDenialChange?(denied)
             }
+            self.onFix?(point, accuracy)
         }
     }
 
