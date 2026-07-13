@@ -8,6 +8,7 @@ struct TimetableView: View {
     @Query private var settings: [UserSettings]
     @State private var showingAddCourse = false
     @State private var showingSettings = false
+    @State private var showingWeekGrid = false
     @Query private var benches: [StudyBench]
     @State private var originChoice: NodeID?          // nil = use current location
     @State private var classRoute: Route?
@@ -117,6 +118,9 @@ struct TimetableView: View {
                     Button("Settings", systemImage: "gearshape") { showingSettings = true }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
+                    Button("Week grid", systemImage: "square.grid.3x3") { showingWeekGrid = true }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
                     Button("Add course", systemImage: "plus") { showingAddCourse = true }
                 }
             }
@@ -125,6 +129,9 @@ struct TimetableView: View {
             }
             .sheet(isPresented: $showingSettings) {
                 SettingsView()
+            }
+            .sheet(isPresented: $showingWeekGrid) {
+                WeekGridView()
             }
             .task(id: todaysGap) {
                 gapSuggestions = []

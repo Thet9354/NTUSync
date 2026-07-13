@@ -39,7 +39,7 @@ Routing (A*, 45-node/138-edge graph, 4 travel profiles), time-dependent shuttle 
 5. **My-hall shelf** (`Trip/HallShelfPlanner.swift` + `UI/HallShelf.swift`): hall picker in Settings (`UserSettings.homeNodeID`); Explore tab shows nearest open Eat/Groceries/Gym/Study from the hall by real walk time, plus one-tap "Route home" into the trip flow.
 
 ## What's NEXT (see Docs/FEATURE_ROADMAP_V2.md for full detail)
-- **Phase 2 nice-to-haves (B3), still unbuilt:** session conflict detection (bitmask intersection), `.ics` share export (no permissions at all), 13-week grid view.
+- **Phase 2 nice-to-haves (B3), still unbuilt:** session conflict detection (bitmask intersection), `.ics` share export (no permissions at all). The **13-week grid view is DONE** (`UI/WeekGridView.swift`: week × weekday matrix off the Timetable toolbar, recess row, current-week highlight, tappable cells; pure math in `WeekGrid` is tested).
 - **Manual device passes worth doing before launch:** calendar export round-trip (incl. re-export), a real leave-now notification firing + tap deep-link, camera capture, Look Around online/offline.
 - **Phase 3 (post-launch, needs paid membership):** CloudKit public DB for community benches + occupancy check-ins (30-min TTL), compass-mode navigation (true AR geo-tracking is NOT available in Singapore), exam mode.
 
