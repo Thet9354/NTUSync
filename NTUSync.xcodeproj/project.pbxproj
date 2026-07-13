@@ -565,6 +565,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSCalendarsWriteOnlyAccessUsageDescription = "NTUSync writes your class timetable into a dedicated calendar so it shows up alongside your other events.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "NTUSync lets you photograph study benches and indoor checkpoints so you can recognise them later.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "NTUSync uses your location to track trip progress across campus and trigger arrival updates.";
 				INFOPLIST_KEY_NSMotionUsageDescription = "NTUSync uses motion data to estimate your position indoors where GPS is unavailable and to count steps during trips.";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
@@ -601,6 +603,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSCalendarsWriteOnlyAccessUsageDescription = "NTUSync writes your class timetable into a dedicated calendar so it shows up alongside your other events.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "NTUSync lets you photograph study benches and indoor checkpoints so you can recognise them later.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "NTUSync uses your location to track trip progress across campus and trigger arrival updates.";
 				INFOPLIST_KEY_NSMotionUsageDescription = "NTUSync uses motion data to estimate your position indoors where GPS is unavailable and to count steps during trips.";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;

@@ -5,16 +5,51 @@ nonisolated enum SessionKind: String, Codable, CaseIterable, Sendable {
     case lecture, tutorial, lab, seminar
 }
 
+/// Version 1 of the store. `Course`/`ClassSession`/`Venue` are unchanged across
+/// versions and stay top-level; models whose shape evolved live inside the
+/// version namespace so every schema version stays reconstructible.
 nonisolated enum SchemaV1: VersionedSchema {
     static var versionIdentifier: Schema.Version { Schema.Version(1, 0, 0) }
     static var models: [any PersistentModel.Type] {
         [Course.self, ClassSession.self, Venue.self, StudyBench.self, UserSettings.self]
     }
-}
 
-nonisolated enum NTUSyncMigrationPlan: SchemaMigrationPlan {
-    static var schemas: [any VersionedSchema.Type] { [SchemaV1.self] }
-    static var stages: [MigrationStage] { [] }
+    @Model
+    nonisolated final class StudyBench {
+        var latitude: Double
+        var longitude: Double
+        var graphNodeID: String
+        var hasPower: Bool
+        var isSheltered: Bool
+        var userRating: Int?
+        var note: String?
+
+        init(latitude: Double, longitude: Double, graphNodeID: String,
+             hasPower: Bool, isSheltered: Bool, userRating: Int? = nil, note: String? = nil) {
+            self.latitude = latitude
+            self.longitude = longitude
+            self.graphNodeID = graphNodeID
+            self.hasPower = hasPower
+            self.isSheltered = isSheltered
+            self.userRating = userRating
+            self.note = note
+        }
+    }
+
+    @Model
+    nonisolated final class UserSettings {
+        #Unique<UserSettings>([\.key])
+        var key: String
+        /// Monday of teaching week 1.
+        var semesterStartDate: Date
+        var seedVersion: Int
+
+        init(key: String = "settings", semesterStartDate: Date, seedVersion: Int = 0) {
+            self.key = key
+            self.semesterStartDate = semesterStartDate
+            self.seedVersion = seedVersion
+        }
+    }
 }
 
 @Model
@@ -85,39 +120,3 @@ nonisolated final class Venue {
     }
 }
 
-@Model
-nonisolated final class StudyBench {
-    var latitude: Double
-    var longitude: Double
-    var graphNodeID: String
-    var hasPower: Bool
-    var isSheltered: Bool
-    var userRating: Int?
-    var note: String?
-
-    init(latitude: Double, longitude: Double, graphNodeID: String,
-         hasPower: Bool, isSheltered: Bool, userRating: Int? = nil, note: String? = nil) {
-        self.latitude = latitude
-        self.longitude = longitude
-        self.graphNodeID = graphNodeID
-        self.hasPower = hasPower
-        self.isSheltered = isSheltered
-        self.userRating = userRating
-        self.note = note
-    }
-}
-
-@Model
-nonisolated final class UserSettings {
-    #Unique<UserSettings>([\.key])
-    var key: String
-    /// Monday of teaching week 1.
-    var semesterStartDate: Date
-    var seedVersion: Int
-
-    init(key: String = "settings", semesterStartDate: Date, seedVersion: Int = 0) {
-        self.key = key
-        self.semesterStartDate = semesterStartDate
-        self.seedVersion = seedVersion
-    }
-}

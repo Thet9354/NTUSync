@@ -7,7 +7,7 @@ import SwiftData
 struct PersistenceTests {
 
     static func makeInMemoryContainer() throws -> ModelContainer {
-        let schema = Schema(versionedSchema: SchemaV1.self)
+        let schema = Schema(versionedSchema: SchemaV2.self)
         let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
         return try ModelContainer(for: schema, configurations: configuration)
     }
@@ -51,6 +51,93 @@ struct PersistenceTests {
         try await store.seedIfNeeded()
         #expect(try container.mainContext.fetchCount(FetchDescriptor<Venue>()) == venuesAfterFirst)
         #expect(try container.mainContext.fetchCount(FetchDescriptor<StudyBench>()) == benchesAfterFirst)
+    }
+
+    /// Real on-disk V1 → V2 migration: existing rows survive, new columns
+    /// arrive nil/defaulted. In-memory containers can't exercise this.
+    @Test func lightweightMigrationV1ToV2PreservesData() throws {
+        let storeURL = URL.temporaryDirectory
+            .appending(path: "migration-test-\(UUID().uuidString).store")
+        defer {
+            try? FileManager.default.removeItem(at: storeURL)
+            try? FileManager.default.removeItem(at: storeURL.deletingPathExtension().appendingPathExtension("store-shm"))
+            try? FileManager.default.removeItem(at: storeURL.deletingPathExtension().appendingPathExtension("store-wal"))
+        }
+
+        // Write a V1-shaped store, then release the container.
+        do {
+            let v1 = try ModelContainer(
+                for: Schema(versionedSchema: SchemaV1.self),
+                configurations: ModelConfiguration(url: storeURL)
+            )
+            let context = ModelContext(v1)
+            context.insert(SchemaV1.StudyBench(
+                latitude: 1.3465, longitude: 103.6840, graphNodeID: "hive",
+                hasPower: true, isSheltered: true, userRating: 4, note: "pilot bench"
+            ))
+            context.insert(SchemaV1.UserSettings(semesterStartDate: .now, seedVersion: 3))
+            try context.save()
+        }
+
+        // Reopen at V2 through the migration plan.
+        let v2 = try ModelContainer(
+            for: Schema(versionedSchema: SchemaV2.self),
+            migrationPlan: NTUSyncMigrationPlan.self,
+            configurations: ModelConfiguration(url: storeURL)
+        )
+        let context = ModelContext(v2)
+
+        let benches = try context.fetch(FetchDescriptor<StudyBench>())
+        #expect(benches.count == 1)
+        #expect(benches.first?.note == "pilot bench")
+        #expect(benches.first?.userRating == 4)
+        #expect(benches.first?.photo == nil)
+
+        let settings = try context.fetch(FetchDescriptor<UserSettings>())
+        #expect(settings.count == 1)
+        #expect(settings.first?.seedVersion == 3)
+        #expect(settings.first?.homeNodeID == nil)
+        #expect(settings.first?.leaveAlertsEnabled == false)
+        #expect(settings.first?.leaveBufferMinutes == 10)
+
+        // The new entity is queryable on the migrated store.
+        let photoCount = try context.fetchCount(FetchDescriptor<CheckpointPhoto>())
+        #expect(photoCount == 0)
+    }
+
+    @Test func benchPhotoRoundTrips() throws {
+        let container = try Self.makeInMemoryContainer()
+        let context = container.mainContext
+
+        let bench = StudyBench(latitude: 1.34, longitude: 103.68, graphNodeID: "bldg.hive",
+                               hasPower: true, isSheltered: true)
+        context.insert(bench)
+        try context.save()
+
+        bench.photo = Data([0xFF, 0xD8, 0xFF])
+        try context.save()
+
+        let fetched = try context.fetch(FetchDescriptor<StudyBench>())
+        #expect(fetched.first?.photo == Data([0xFF, 0xD8, 0xFF]))
+
+        bench.photo = nil
+        try context.save()
+        #expect(try context.fetch(FetchDescriptor<StudyBench>()).first?.photo == nil)
+    }
+
+    @Test func checkpointPhotoIsUniquePerNode() throws {
+        let container = try Self.makeInMemoryContainer()
+        let context = container.mainContext
+
+        context.insert(CheckpointPhoto(nodeID: "indoor.hive-atrium", photo: Data([1])))
+        try context.save()
+        // #Unique on nodeID: a second insert for the same node upserts.
+        context.insert(CheckpointPhoto(nodeID: "indoor.hive-atrium", photo: Data([2])))
+        try context.save()
+
+        let photos = try context.fetch(FetchDescriptor<CheckpointPhoto>())
+        #expect(photos.count == 1)
+        #expect(photos.first?.photo == Data([2]))
     }
 
     @Test func seededVenuesReferenceRealGraphNodes() async throws {

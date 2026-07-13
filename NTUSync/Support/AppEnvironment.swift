@@ -13,6 +13,11 @@ final class AppEnvironment {
     let tripSession: TripSessionCoordinator
     let location: LocationService
     let pedometer: PedometerService
+    let leaveAlerts: LeaveAlertScheduler
+
+    /// Destination requested from outside the UI (a tapped leave-now alert);
+    /// the planner tab observes this and prefills itself.
+    var pendingDestination: NodeID?
 
     init() {
         do {
@@ -30,6 +35,10 @@ final class AppEnvironment {
         tripSession = TripSessionCoordinator(liveActivity: liveActivity)
         location = LocationService()
         pedometer = PedometerService()
+        leaveAlerts = LeaveAlertScheduler()
+        leaveAlerts.onOpenDestination = { [weak self] node in
+            self?.pendingDestination = node
+        }
 
         pedometer.onUpdate = { [tripSession] steps, distanceDelta in
             tripSession.recordSteps(steps)

@@ -70,7 +70,18 @@ struct RoutePlannerView: View {
             .fullScreenCover(isPresented: $showTripMap) {
                 LiveTripView()
             }
+            .task { consumePendingDestination() }
+            .onChange(of: env.pendingDestination) { _, _ in consumePendingDestination() }
         }
+    }
+
+    /// A tapped leave-now alert prefills the planner with the class venue.
+    private func consumePendingDestination() {
+        guard let pending = env.pendingDestination else { return }
+        destination = pending
+        departure = .now
+        route = nil
+        env.pendingDestination = nil
     }
 
     private func findRoute() async {
@@ -103,15 +114,32 @@ struct RoutePlannerView: View {
 struct RouteResultSection: View {
     @Environment(AppEnvironment.self) private var env
     let route: Route
+    @State private var checkpointLeg: RouteLeg?
 
     var body: some View {
         Section("Route · \(Int(route.totalSeconds / 60)) min · arrive \(route.arrivalTime.formatted(date: .omitted, time: .shortened))") {
             RouteMapPreview(route: route)
             ForEach(route.legs) { leg in
-                LegRow(leg: leg)
+                Button {
+                    checkpointLeg = leg
+                } label: {
+                    HStack {
+                        LegRow(leg: leg)
+                        Spacer()
+                        Image(systemName: "binoculars")
+                            .font(.caption)
+                            .foregroundStyle(.tertiary)
+                    }
+                }
+                .buttonStyle(.plain)
+                .accessibilityHint("Shows street-level checkpoint imagery")
             }
             LabeledContent("Walking", value: "\(Int(route.totalWalkMetres)) m")
             LabeledContent("Rain-exposed", value: "\(Int(route.exposedMetres)) m")
+        }
+        .sheet(item: $checkpointLeg) { leg in
+            CheckpointSheet(nodes: leg.nodes)
+                .presentationDetents([.medium, .large])
         }
     }
 }

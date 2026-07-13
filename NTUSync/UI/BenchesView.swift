@@ -60,21 +60,26 @@ struct BenchesView: View {
                 }
             }
             .safeAreaInset(edge: .bottom) {
-                HStack {
-                    if isPlacingBench {
-                        Label("Tap the map where the bench is", systemImage: "hand.tap")
-                            .foregroundStyle(.blue)
-                    } else {
-                        Label("Sheltered", systemImage: "circle.fill").foregroundStyle(.green)
-                        Label("Open-air", systemImage: "circle.fill").foregroundStyle(.orange)
-                        Spacer()
-                        Text("\(benches.count) benches")
+                VStack(spacing: 0) {
+                    if !isPlacingBench {
+                        HallShelf()
                     }
+                    HStack {
+                        if isPlacingBench {
+                            Label("Tap the map where the bench is", systemImage: "hand.tap")
+                                .foregroundStyle(.blue)
+                        } else {
+                            Label("Sheltered", systemImage: "circle.fill").foregroundStyle(.green)
+                            Label("Open-air", systemImage: "circle.fill").foregroundStyle(.orange)
+                            Spacer()
+                            Text("\(benches.count) benches")
+                        }
+                    }
+                    .font(.caption)
+                    .padding(10)
+                    .frame(maxWidth: .infinity)
+                    .background(.thinMaterial)
                 }
-                .font(.caption)
-                .padding(10)
-                .frame(maxWidth: .infinity)
-                .background(.thinMaterial)
             }
             .sheet(item: selectedBenchBinding) { bench in
                 BenchDetailView(bench: bench)
@@ -184,6 +189,7 @@ struct AddBenchView: View {
     @State private var hasPower = false
     @State private var isSheltered = true
     @State private var note = ""
+    @State private var photo: Data?
 
     var body: some View {
         NavigationStack {
@@ -194,6 +200,7 @@ struct AddBenchView: View {
                     Toggle("Sheltered", isOn: $isSheltered)
                     TextField("Note (e.g. \"quiet before 10am\")", text: $note)
                 }
+                BenchPhotoSection(photoData: $photo)
             }
             .navigationTitle("Add bench")
             .toolbar {
@@ -222,7 +229,8 @@ struct AddBenchView: View {
             graphNodeID: nearestNode?.id.rawValue ?? "",
             hasPower: hasPower,
             isSheltered: isSheltered,
-            note: note.isEmpty ? nil : note
+            note: note.isEmpty ? nil : note,
+            photo: photo
         ))
         dismiss()
     }
@@ -265,6 +273,7 @@ struct BenchDetailView: View {
                         set: { bench.note = $0.isEmpty ? nil : $0 }
                     ))
                 }
+                BenchPhotoSection(photoData: $bench.photo)
                 Section("Your rating") {
                     HStack(spacing: 12) {
                         ForEach(1...5, id: \.self) { star in

@@ -1,6 +1,6 @@
 # NTUSync — Session Handoff
 
-**Last updated:** end of Phase 1 implementation. Read this + the two design docs before touching code.
+**Last updated:** end of Phase 2 implementation. Read this + the two design docs before touching code.
 
 ## What this project is
 NTUSync: offline-first campus transit optimizer + academic scheduler for NTU Singapore. iOS 26+, SwiftUI, **Swift 6 strict concurrency** (`SWIFT_STRICT_CONCURRENCY=complete`, `SWIFT_DEFAULT_ACTOR_ISOLATION=MainActor`). Xcode 26.6. No external package dependencies. Fully offline — zero network calls in core flows.
@@ -23,26 +23,25 @@ Owner is a student building this as a scholarship/internship flagship. Paid Appl
 - Swift Testing (`@Test`/`#expect`), not XCTest. `#expect` cannot wrap a mutating method call — hoist the call to a `let` first.
 
 ## Current state
-- **3 commits.** Phase 1 work is **UNCOMMITTED** in the working tree (owner commits/pushes manually). If starting fresh, the owner may have committed it — run `git log --oneline` and `git status` to confirm before assuming.
-- **54 tests passing**, zero Swift warnings, builds clean for simulator and `generic/platform=iOS`.
-- App icon, `NSSupportsLiveActivities`, location/motion usage strings, `ITSAppUsesNonExemptEncryption=NO` all set.
+- **3 commits.** Phase 1 AND Phase 2 work is **UNCOMMITTED** in the working tree (owner commits/pushes manually; commit messages were provided per logical chunk). If starting fresh, the owner may have committed it — run `git log --oneline` and `git status` to confirm before assuming.
+- **68 tests passing**, zero Swift warnings, builds clean for simulator and `generic/platform=iOS`.
+- App icon, `NSSupportsLiveActivities`, location/motion/calendar-write-only/camera usage strings, `ITSAppUsesNonExemptEncryption=NO` all set (usage strings live as `INFOPLIST_KEY_*` build settings in the pbxproj, duplicated across Debug + Release).
+- **Store is now on SchemaV2** (`Persistence/SchemaV2.swift`): evolving models (`StudyBench`, `UserSettings`) are namespaced inside their `VersionedSchema` enum with top-level typealiases pointing at the current version; unchanged models (`Course`, `ClassSession`, `Venue`) stay top-level and are shared by both schemas' `models` arrays. V1 → V2 is a lightweight stage. Follow this exact pattern for SchemaV3.
 
 ## Features complete (core + Phase 1)
 Routing (A*, 45-node/138-edge graph, 4 travel profiles), time-dependent shuttle costs, Live Activities (Lock Screen + Dynamic Island, ≤6 pushes/trip), trip autopilot (GPS-driven phase transitions), indoor dead reckoning, automatic mid-trip re-routing, crash/relaunch recovery, SwiftData schema (versioned, SchemaV1), teaching-week recurrence, settings, onboarding flow (`NTUSync/UI/Onboarding/`), course/bench management.
 **Phase 1 additions:** animated route map preview (`RouteMap.swift`), full-screen live trip map (`LiveTripView.swift`), gap advisor (`GapPlanner.swift`), amenity POI layer (`Amenities.swift` + `Amenities.json`, 22 POIs, 10 categories), category filter chips + "Take me there" on the renamed **Explore** tab, gradient next-class hero card, 30 curated benches.
+**Phase 2 additions (all done):**
+1. **Calendar export** (`Integrations/TimetableEventPlanner.swift` pure + tested, `Integrations/CalendarExporter.swift` EventKit adapter): Settings button writes individual dated events (no RRULEs) into a dedicated "NTUSync" calendar under **write-only** access; re-export deletes and recreates the calendar (write-only can't read events). ⚠️ Calendar *removal* under write-only access is untested on a real device — if it ever fails, fall back to requesting full access.
+2. **"Leave now" notifications** (`Integrations/LeaveAlertPlanner.swift` pure + tested, `Integrations/LeaveAlertScheduler.swift`): fires at `classStart − routeTime − buffer`, route computed from the user's hall per occurrence (7-day window, ≤32 pending, rolled forward each launch via `ContentView.refreshLeaveAlerts`). Scheduler is also the `UNUserNotificationCenterDelegate`; a tapped alert sets `AppEnvironment.pendingDestination`, which switches to the Route tab and prefills the planner.
+3. **Look Around checkpoints** (`UI/CheckpointPreview.swift`): tap any route leg → checkpoint chips + `LookAroundPreview`; map-snapshot fallback when offline/uncovered; user-photo slot (`CheckpointPhoto` model) for indoor nodes.
+4. **Bench photos** (`UI/BenchPhotoSection.swift`, shared by add + detail sheets): PhotosPicker + `UIImagePickerController` camera bridge; all photos pass through `Support/ImageProcessing.swift` (≤1600 px JPEG) into `.externalStorage`.
+5. **My-hall shelf** (`Trip/HallShelfPlanner.swift` + `UI/HallShelf.swift`): hall picker in Settings (`UserSettings.homeNodeID`); Explore tab shows nearest open Eat/Groceries/Gym/Study from the hall by real walk time, plus one-tap "Route home" into the trip flow.
 
-## What's NEXT — Phase 2 (see Docs/FEATURE_ROADMAP_V2.md for full detail)
-Confirmed decisions from the owner: use **Apple Look Around** for checkpoint imagery (not hand-shot photos), and **local notifications** for "leave now" alerts (not the Reminders app).
-
-Phase 2 scope (pre-launch, needs permission strings only):
-1. **Calendar export (EventKit):** dedicated "NTUSync" calendar, individual dated events per session (NOT RRULEs — preserves odd/even/recess weeks). Google Calendar comes free via iOS Calendar accounts. Needs `NSCalendarsWriteOnlyAccessUsageDescription`.
-2. **"Leave now" local notifications:** scheduled at `classStart − routeTime − buffer`, route duration from `RouteEngine`. Needs notification authorization.
-3. **Look Around checkpoints:** `LookAroundPreview` in route detail per checkpoint node (Singapore has full coverage). Fallback to map snapshot offline; custom photo slot for indoor nodes.
-4. **Bench photos:** `PhotosPicker` + camera, stored as `@Attribute(.externalStorage) Data` — requires **SchemaV2 + migration stage** (versioning was set up for exactly this).
-5. **My-hall shelf:** `homeNodeID` in UserSettings, personal "nearest food/bench/gym from your hall" + one-tap "route home".
-6. Nice-to-haves: session conflict detection (bitmask intersection), `.ics` share export, 13-week grid view.
-
-Phase 3 (post-launch, needs paid membership): CloudKit public DB for community benches + occupancy check-ins (30-min TTL), compass-mode navigation (true AR geo-tracking is NOT available in Singapore), exam mode.
+## What's NEXT (see Docs/FEATURE_ROADMAP_V2.md for full detail)
+- **Phase 2 nice-to-haves (B3), still unbuilt:** session conflict detection (bitmask intersection), `.ics` share export (no permissions at all), 13-week grid view.
+- **Manual device passes worth doing before launch:** calendar export round-trip (incl. re-export), a real leave-now notification firing + tap deep-link, camera capture, Look Around online/offline.
+- **Phase 3 (post-launch, needs paid membership):** CloudKit public DB for community benches + occupancy check-ins (30-min TTL), compass-mode navigation (true AR geo-tracking is NOT available in Singapore), exam mode.
 
 ## Known honesty caveats in data
 Amenity hours and several bench/amenity locations carry "verify" notes — plausible curated placeholders to be ground-truthed on a physical campus walk by editing `Amenities.json` and `SeedBenches.json`. On-campus alcohol is genuinely sparse; the data reflects this honestly with off-campus (Jurong Point) entries.
