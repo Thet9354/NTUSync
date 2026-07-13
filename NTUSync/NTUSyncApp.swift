@@ -13,7 +13,7 @@ struct NTUSyncApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
                 .environment(env)
                 .task {
                     await Self.seed(container: container)

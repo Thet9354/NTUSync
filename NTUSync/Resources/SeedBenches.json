@@ -1,11 +1,35 @@
 {
- "seedVersion": 1,
+ "seedVersion": 2,
  "benches": [
   { "latitude": 1.34450, "longitude": 103.68355, "graphNodeID": "indoor.hive-atrium", "hasPower": true,  "isSheltered": true,  "note": "Hive atrium pods, cool and quiet before 10am" },
+  { "latitude": 1.34455, "longitude": 103.68370, "graphNodeID": "bldg.hive",          "hasPower": true,  "isSheltered": true,  "note": "Hive L2 oval tables — verify" },
+  { "latitude": 1.34440, "longitude": 103.68345, "graphNodeID": "bldg.hive",          "hasPower": false, "isSheltered": true,  "note": "Hive garden terrace benches" },
   { "latitude": 1.34772, "longitude": 103.68188, "graphNodeID": "bldg.lwn",           "hasPower": true,  "isSheltered": true,  "note": "LWN level 3 window benches" },
+  { "latitude": 1.34778, "longitude": 103.68178, "graphNodeID": "bldg.lwn",           "hasPower": true,  "isSheltered": true,  "note": "LWN level 4 quiet zone — verify" },
+  { "latitude": 1.34768, "longitude": 103.68192, "graphNodeID": "indoor.lwn-b1",      "hasPower": true,  "isSheltered": true,  "note": "LWN basement study area, always cold" },
   { "latitude": 1.34638, "longitude": 103.68115, "graphNodeID": "bldg.northspine",    "hasPower": false, "isSheltered": true,  "note": "North Spine walkway high tables" },
-  { "latitude": 1.33925, "longitude": 103.67975, "graphNodeID": "bldg.yunnan",        "hasPower": false, "isSheltered": false, "note": "Yunnan Garden stone benches, sunset view" },
+  { "latitude": 1.34632, "longitude": 103.68125, "graphNodeID": "bldg.northspine",    "hasPower": true,  "isSheltered": true,  "note": "North Spine study cluster near LT2A — verify" },
+  { "latitude": 1.34650, "longitude": 103.68095, "graphNodeID": "bldg.northspine",    "hasPower": false, "isSheltered": true,  "note": "Koufu back tables, off-peak" },
   { "latitude": 1.34242, "longitude": 103.68448, "graphNodeID": "bldg.southspine",    "hasPower": true,  "isSheltered": true,  "note": "South Spine study cluster near vending machines" },
-  { "latitude": 1.34398, "longitude": 103.68485, "graphNodeID": "bldg.canteen2",      "hasPower": false, "isSheltered": true,  "note": "Canteen 2 back tables, off-peak only" }
+  { "latitude": 1.34236, "longitude": 103.68460, "graphNodeID": "bldg.southspine",    "hasPower": true,  "isSheltered": true,  "note": "South Spine B1 benches outside tutorial rooms — verify" },
+  { "latitude": 1.34248, "longitude": 103.68440, "graphNodeID": "bldg.southspine",    "hasPower": false, "isSheltered": true,  "note": "Walkway stone benches, breezy" },
+  { "latitude": 1.33925, "longitude": 103.67975, "graphNodeID": "bldg.yunnan",        "hasPower": false, "isSheltered": false, "note": "Yunnan Garden stone benches, sunset view" },
+  { "latitude": 1.34398, "longitude": 103.68485, "graphNodeID": "bldg.canteen2",      "hasPower": false, "isSheltered": true,  "note": "Canteen 2 back tables, off-peak only" },
+  { "latitude": 1.34225, "longitude": 103.68245, "graphNodeID": "bldg.spms",          "hasPower": true,  "isSheltered": true,  "note": "SPMS atrium study benches — verify power" },
+  { "latitude": 1.34232, "longitude": 103.68235, "graphNodeID": "bldg.spms",          "hasPower": false, "isSheltered": true,  "note": "SPMS linkway benches outside LT1" },
+  { "latitude": 1.34565, "longitude": 103.68245, "graphNodeID": "bldg.scse",          "hasPower": true,  "isSheltered": true,  "note": "SCSE student lounge — verify access" },
+  { "latitude": 1.34605, "longitude": 103.68175, "graphNodeID": "bldg.mae",           "hasPower": true,  "isSheltered": true,  "note": "MAE corridor study corner — verify" },
+  { "latitude": 1.34285, "longitude": 103.68165, "graphNodeID": "bldg.eee",           "hasPower": true,  "isSheltered": true,  "note": "EEE S1 benches near labs — verify" },
+  { "latitude": 1.34265, "longitude": 103.68085, "graphNodeID": "bldg.gaia",          "hasPower": true,  "isSheltered": true,  "note": "Gaia terraces — plenty of sockets, verify hours" },
+  { "latitude": 1.34295, "longitude": 103.68565, "graphNodeID": "bldg.hss",           "hasPower": true,  "isSheltered": true,  "note": "HSS reading corner — verify" },
+  { "latitude": 1.34965, "longitude": 103.68370, "graphNodeID": "bldg.adm",           "hasPower": false, "isSheltered": true,  "note": "ADM sunken plaza, shaded afternoons" },
+  { "latitude": 1.34575, "longitude": 103.67955, "graphNodeID": "bldg.sbs",           "hasPower": false, "isSheltered": true,  "note": "SBS courtyard benches by the koi pond" },
+  { "latitude": 1.34875, "longitude": 103.67765, "graphNodeID": "bldg.nie",           "hasPower": true,  "isSheltered": true,  "note": "NIE library benches — verify access" },
+  { "latitude": 1.34705, "longitude": 103.68685, "graphNodeID": "hall.1",             "hasPower": false, "isSheltered": true,  "note": "Hall 1 pavilion tables" },
+  { "latitude": 1.34435, "longitude": 103.68765, "graphNodeID": "hall.4",             "hasPower": false, "isSheltered": true,  "note": "Hall 4 study pavilion" },
+  { "latitude": 1.34845, "longitude": 103.68615, "graphNodeID": "hall.6",             "hasPower": false, "isSheltered": true,  "note": "Hall 6 common lounge — residents" },
+  { "latitude": 1.35295, "longitude": 103.68625, "graphNodeID": "bldg.northhill",     "hasPower": true,  "isSheltered": true,  "note": "North Hill cluster study room — verify" },
+  { "latitude": 1.34205, "longitude": 103.68825, "graphNodeID": "bldg.pioneer",       "hasPower": true,  "isSheltered": true,  "note": "Pioneer Hall lounge — residents, verify" },
+  { "latitude": 1.34620, "longitude": 103.68695, "graphNodeID": "bldg.canteen1",      "hasPower": false, "isSheltered": true,  "note": "Canteen 1 upper deck, quiet at night" }
  ]
 }

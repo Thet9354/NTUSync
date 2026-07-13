@@ -90,8 +90,11 @@ final class LiveActivityCoordinator {
 
     var isActive: Bool { activityID != nil }
 
-    init(gateway: any TripActivityGateway = ActivityKitGateway()) {
-        self.gateway = gateway
+    /// Pass a gateway in tests; production callers get the ActivityKit one.
+    /// (Constructed in the body, not as a default argument — default arguments
+    /// evaluate in a nonisolated context and cannot call a MainActor init.)
+    init(gateway: (any TripActivityGateway)? = nil) {
+        self.gateway = gateway ?? ActivityKitGateway()
     }
 
     func begin(attributes: TripActivityAttributes,

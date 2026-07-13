@@ -7,6 +7,7 @@ import os
 final class AppEnvironment {
     let graph: CampusGraph
     let timetable: ShuttleTimetable
+    let amenities: AmenityDirectory
     let routeEngine: RouteEngine
     let liveActivity: LiveActivityCoordinator
     let tripSession: TripSessionCoordinator
@@ -17,6 +18,7 @@ final class AppEnvironment {
         do {
             graph = try CampusGraph.loadBundled()
             timetable = try ShuttleTimetable.loadBundled()
+            amenities = try AmenityDirectory.loadBundled()
         } catch {
             // Bundled data is a build artifact; failing to parse it is a
             // programmer error caught by the validation test suite.

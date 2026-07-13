@@ -11,6 +11,7 @@ struct RoutePlannerView: View {
     @State private var route: Route?
     @State private var errorMessage: String?
     @State private var isRouting = false
+    @State private var showTripMap = false
 
     var body: some View {
         NavigationStack {
@@ -65,6 +66,10 @@ struct RoutePlannerView: View {
                 }
             }
             .navigationTitle("NTUSync")
+            .sensoryFeedback(.success, trigger: route)
+            .fullScreenCover(isPresented: $showTripMap) {
+                LiveTripView()
+            }
         }
     }
 
@@ -91,6 +96,7 @@ struct RoutePlannerView: View {
         let to = route.destination.map(env.displayName(for:)) ?? "?"
         try? await env.tripSession.start(route: route, summary: "\(from) → \(to)", nextClass: nil, profile: profile)
         env.beginTripSensing()
+        showTripMap = true
     }
 }
 
@@ -100,6 +106,7 @@ struct RouteResultSection: View {
 
     var body: some View {
         Section("Route · \(Int(route.totalSeconds / 60)) min · arrive \(route.arrivalTime.formatted(date: .omitted, time: .shortened))") {
+            RouteMapPreview(route: route)
             ForEach(route.legs) { leg in
                 LegRow(leg: leg)
             }
@@ -157,9 +164,18 @@ struct LegRow: View {
 
 struct ActiveTripSection: View {
     @Environment(AppEnvironment.self) private var env
+    @State private var showTripMap = false
 
     var body: some View {
         Section("Active trip · \(env.tripSession.phase?.rawValue ?? "")") {
+            Button {
+                showTripMap = true
+            } label: {
+                Label("Open live trip map", systemImage: "map.fill")
+            }
+            .fullScreenCover(isPresented: $showTripMap) {
+                LiveTripView()
+            }
             if let progress = env.tripSession.progressFraction {
                 ProgressView(value: progress) {
                     Text(env.tripSession.isDeadReckoning ? "Progress (approximate — indoors)" : "Progress")

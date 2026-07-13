@@ -46,7 +46,7 @@ struct PersistenceTests {
         let venuesAfterFirst = try container.mainContext.fetchCount(FetchDescriptor<Venue>())
         let benchesAfterFirst = try container.mainContext.fetchCount(FetchDescriptor<StudyBench>())
         #expect(venuesAfterFirst == 8)
-        #expect(benchesAfterFirst == 6)
+        #expect(benchesAfterFirst == 30)
 
         try await store.seedIfNeeded()
         #expect(try container.mainContext.fetchCount(FetchDescriptor<Venue>()) == venuesAfterFirst)

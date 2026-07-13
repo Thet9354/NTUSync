@@ -11,7 +11,7 @@ struct ContentView: View {
             Tab("Timetable", systemImage: "calendar") {
                 TimetableView()
             }
-            Tab("Benches", systemImage: "chair.lounge.fill") {
+            Tab("Explore", systemImage: "sparkles") {
                 BenchesView()
             }
         }

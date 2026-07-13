@@ -1,0 +1,27 @@
+{
+ "formatVersion": 1,
+ "amenities": [
+  { "id": "prime-ns",      "name": "Prime Supermarket",        "category": "supermarket", "graphNodeID": "bldg.northspine", "latitude": 1.34645, "longitude": 103.68105, "openMinute": 480,  "closeMinute": 1380, "note": "Sells beer and wine — verify hours" },
+  { "id": "koufu-ns",      "name": "Koufu Food Court",         "category": "food",        "graphNodeID": "bldg.northspine", "latitude": 1.34635, "longitude": 103.68120, "openMinute": 420,  "closeMinute": 1260, "note": "North Spine food court" },
+  { "id": "mcd-ns",        "name": "McDonald's North Spine",   "category": "supper",      "graphNodeID": "bldg.northspine", "latitude": 1.34650, "longitude": 103.68100, "openMinute": null, "closeMinute": null, "note": "24h in term time — verify" },
+  { "id": "cheers-ns",     "name": "Cheers Convenience",       "category": "supper",      "graphNodeID": "bldg.northspine", "latitude": 1.34642, "longitude": 103.68115, "openMinute": null, "closeMinute": null, "note": "Snacks, drinks, beer" },
+  { "id": "print-ns",      "name": "North Spine Print Shop",   "category": "printing",    "graphNodeID": "bldg.northspine", "latitude": 1.34638, "longitude": 103.68108, "openMinute": 540,  "closeMinute": 1080, "note": "Weekdays only — verify" },
+  { "id": "atm-ns",        "name": "ATMs (POSB / OCBC)",       "category": "atm",         "graphNodeID": "bldg.northspine", "latitude": 1.34641, "longitude": 103.68112, "openMinute": null, "closeMinute": null, "note": null },
+  { "id": "clinic-ns",     "name": "University Health Service","category": "clinic",      "graphNodeID": "bldg.northspine", "latitude": 1.34648, "longitude": 103.68118, "openMinute": 510,  "closeMinute": 1050, "note": "Verify location and hours" },
+  { "id": "canteen1",      "name": "Canteen 1",                "category": "food",        "graphNodeID": "bldg.canteen1",   "latitude": 1.34620, "longitude": 103.68690, "openMinute": 420,  "closeMinute": 1200, "note": null },
+  { "id": "canteen2",      "name": "Canteen 2",                "category": "food",        "graphNodeID": "bldg.canteen2",   "latitude": 1.34395, "longitude": 103.68490, "openMinute": 420,  "closeMinute": 1260, "note": null },
+  { "id": "supper-c2",     "name": "Canteen 2 Supper Stretch", "category": "supper",      "graphNodeID": "bldg.canteen2",   "latitude": 1.34392, "longitude": 103.68495, "openMinute": 1080, "closeMinute": 120,  "note": "Late-night stalls — verify" },
+  { "id": "quad-cafe",     "name": "The Quad Café",            "category": "cafe",        "graphNodeID": "bldg.southspine", "latitude": 1.34242, "longitude": 103.68445, "openMinute": 480,  "closeMinute": 1080, "note": "Verify name and hours" },
+  { "id": "lwn-cafe",      "name": "LWN Library Café",         "category": "cafe",        "graphNodeID": "bldg.lwn",        "latitude": 1.34773, "longitude": 103.68185, "openMinute": 510,  "closeMinute": 1020, "note": "Verify" },
+  { "id": "seven-ss",      "name": "7-Eleven South Spine",     "category": "supper",      "graphNodeID": "bldg.southspine", "latitude": 1.34238, "longitude": 103.68455, "openMinute": null, "closeMinute": null, "note": null },
+  { "id": "atm-ss",        "name": "ATM South Spine",          "category": "atm",         "graphNodeID": "bldg.southspine", "latitude": 1.34241, "longitude": 103.68452, "openMinute": null, "closeMinute": null, "note": null },
+  { "id": "src-gym",       "name": "SRC Gym",                  "category": "gym",         "graphNodeID": "hall.2",          "latitude": 1.34520, "longitude": 103.68750, "openMinute": 420,  "closeMinute": 1290, "note": "Sports & Recreation Centre — verify" },
+  { "id": "src-pool",      "name": "SRC Swimming Pool",        "category": "recreation",  "graphNodeID": "hall.2",          "latitude": 1.34515, "longitude": 103.68760, "openMinute": 420,  "closeMinute": 1230, "note": "Verify" },
+  { "id": "yunnan",        "name": "Yunnan Garden",            "category": "recreation",  "graphNodeID": "bldg.yunnan",     "latitude": 1.33920, "longitude": 103.67970, "openMinute": null, "closeMinute": null, "note": "Sunset walks" },
+  { "id": "nhill-food",    "name": "North Hill Food Court",    "category": "food",        "graphNodeID": "bldg.northhill",  "latitude": 1.35300, "longitude": 103.68635, "openMinute": 420,  "closeMinute": 1260, "note": "Verify" },
+  { "id": "crescent-food", "name": "Pioneer & Crescent Canteen","category": "food",       "graphNodeID": "bldg.crescent",   "latitude": 1.34162, "longitude": 103.68785, "openMinute": 420,  "closeMinute": 1200, "note": "Verify" },
+  { "id": "nec-lounge",    "name": "NEC Lounge & Bar",         "category": "alcohol",     "graphNodeID": "bldg.nie",        "latitude": 1.34875, "longitude": 103.67755, "openMinute": 1020, "closeMinute": 1380, "note": "Nanyang Executive Centre — verify access" },
+  { "id": "jp-offcampus",  "name": "Jurong Point (off campus)","category": "alcohol",     "graphNodeID": "stop.pioneer",    "latitude": 1.34210, "longitude": 103.68800, "openMinute": 600,  "closeMinute": 1320, "note": "Bars and supermarkets — take 179 from Pioneer stop" },
+  { "id": "gaia-cafe",     "name": "Gaia Café",                "category": "cafe",        "graphNodeID": "bldg.gaia",       "latitude": 1.34262, "longitude": 103.68078, "openMinute": 480,  "closeMinute": 1050, "note": "Verify" }
+ ]
+}

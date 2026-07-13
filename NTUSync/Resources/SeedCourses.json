@@ -1,0 +1,47 @@
+{
+ "seedVersion": 2,
+ "courses": [
+  {
+   "code": "SC2001", "title": "Algorithm Design and Analysis", "colorSeed": 0,
+   "sessions": [
+    { "kind": "lecture",  "dayOfWeek": 2, "startMinutes": 570,  "durationMinutes": 120, "venue": "SPMS-LT1" },
+    { "kind": "lab",      "dayOfWeek": 4, "startMinutes": 840,  "durationMinutes": 120, "venue": "NS-LT2A" }
+   ]
+  },
+  {
+   "code": "SC2002", "title": "Object Oriented Design & Programming", "colorSeed": 3,
+   "sessions": [
+    { "kind": "lecture",  "dayOfWeek": 3, "startMinutes": 690,  "durationMinutes": 120, "venue": "NS-LT2A" },
+    { "kind": "lab",      "dayOfWeek": 5, "startMinutes": 540,  "durationMinutes": 120, "venue": "HIVE-TR29" }
+   ]
+  },
+  {
+   "code": "SC2005", "title": "Operating Systems", "colorSeed": 5,
+   "sessions": [
+    { "kind": "lecture",  "dayOfWeek": 4, "startMinutes": 570,  "durationMinutes": 120, "venue": "SPMS-LT1" },
+    { "kind": "tutorial", "dayOfWeek": 6, "startMinutes": 630,  "durationMinutes": 60,  "venue": "SPMS-TR+15" }
+   ]
+  },
+  {
+   "code": "SC2006", "title": "Software Engineering", "colorSeed": 7,
+   "sessions": [
+    { "kind": "lecture",  "dayOfWeek": 5, "startMinutes": 870,  "durationMinutes": 120, "venue": "NS-LT2A" },
+    { "kind": "tutorial", "dayOfWeek": 2, "startMinutes": 930,  "durationMinutes": 60,  "venue": "HIVE-TR29" }
+   ]
+  },
+  {
+   "code": "SC2008", "title": "Computer Networks", "colorSeed": 9,
+   "sessions": [
+    { "kind": "lecture",  "dayOfWeek": 6, "startMinutes": 810,  "durationMinutes": 120, "venue": "SPMS-LT1" },
+    { "kind": "lab",      "dayOfWeek": 3, "startMinutes": 900,  "durationMinutes": 120, "venue": "SBS-CR3" }
+   ]
+  },
+  {
+   "code": "SC3000", "title": "Artificial Intelligence", "colorSeed": 11,
+   "sessions": [
+    { "kind": "lecture",  "dayOfWeek": 2, "startMinutes": 810,  "durationMinutes": 120, "venue": "NS-LT2A" },
+    { "kind": "tutorial", "dayOfWeek": 4, "startMinutes": 690,  "durationMinutes": 60,  "venue": "WKW-SR2" }
+   ]
+  }
+ ]
+}
