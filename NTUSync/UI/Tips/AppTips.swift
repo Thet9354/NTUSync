@@ -6,19 +6,15 @@ import TipKit
 /// gated by rules so tips never stack. TipKit persists "seen" state on-device;
 /// nothing here touches the network.
 
-/// Anchored to the ＋ button on the Timetable. Only shows while the timetable
-/// is empty — adding (or seeding) a course flips the parameter and retires it.
+/// Anchored to the ＋ button on the Timetable. Always shows once on a fresh
+/// install (even with a seeded timetable) — adding courses is the app's core
+/// setup step, so every new user gets pointed at it exactly once.
 nonisolated struct AddCourseTip: Tip {
-    @Parameter static var hasCourses: Bool = false
-
     var title: Text { Text("Add your courses here") }
     var message: Text? {
         Text("Build your timetable — odd/even teaching weeks and the recess week are handled for you.")
     }
     var image: Image? { Image(systemName: "calendar.badge.plus") }
-    var rules: [Rule] {
-        #Rule(Self.$hasCourses) { $0 == false }
-    }
 }
 
 /// Anchored to the next-class hero card — which only exists once a course with

@@ -148,10 +148,6 @@ struct TimetableView: View {
             .sheet(isPresented: $showingExams) {
                 ExamsView()
             }
-            // Retire the add-course tip once anything (user or seed) adds one.
-            .task(id: courses.isEmpty) {
-                AddCourseTip.hasCourses = !courses.isEmpty
-            }
             .task(id: todaysGap) {
                 gapSuggestions = []
                 guard let gap = todaysGap else { return }
