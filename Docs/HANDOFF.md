@@ -23,8 +23,8 @@ Owner is a student building this as a scholarship/internship flagship. Paid Appl
 - Swift Testing (`@Test`/`#expect`), not XCTest. `#expect` cannot wrap a mutating method call — hoist the call to a `let` first.
 
 ## Current state
-- **3 commits.** Phase 1 AND Phase 2 work is **UNCOMMITTED** in the working tree (owner commits/pushes manually; commit messages were provided per logical chunk). If starting fresh, the owner may have committed it — run `git log --oneline` and `git status` to confirm before assuming.
-- **68 tests passing**, zero Swift warnings, builds clean for simulator and `generic/platform=iOS`.
+- **6 commits, all pushed to `origin/main`** (`Thet9354/NTUSync`). Working tree clean. Latest: `d2d405a Add 13-week semester grid view`, preceded by `551bc60` (Phase 2) and `5942446` (Phase 1). Owner commits/pushes manually — always confirm with `git log --oneline` + `git status` before assuming.
+- **72 tests passing**, zero Swift warnings, builds clean for simulator and `generic/platform=iOS`.
 - App icon, `NSSupportsLiveActivities`, location/motion/calendar-write-only/camera usage strings, `ITSAppUsesNonExemptEncryption=NO` all set (usage strings live as `INFOPLIST_KEY_*` build settings in the pbxproj, duplicated across Debug + Release).
 - **Store is now on SchemaV2** (`Persistence/SchemaV2.swift`): evolving models (`StudyBench`, `UserSettings`) are namespaced inside their `VersionedSchema` enum with top-level typealiases pointing at the current version; unchanged models (`Course`, `ClassSession`, `Venue`) stay top-level and are shared by both schemas' `models` arrays. V1 → V2 is a lightweight stage. Follow this exact pattern for SchemaV3.
 
