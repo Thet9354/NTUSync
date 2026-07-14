@@ -8,10 +8,15 @@ struct LiveTripView: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var camera: MapCameraPosition = .automatic
+    @State private var showingCompass = false
 
     var body: some View {
         ZStack(alignment: .top) {
-            tripMap
+            if showingCompass {
+                CompassModeView()
+            } else {
+                tripMap
+            }
             headerCard
         }
         .safeAreaInset(edge: .bottom) { controls }
@@ -64,6 +69,14 @@ struct LiveTripView: View {
                 }
                 Spacer()
                 countdown
+                Button {
+                    withAnimation { showingCompass.toggle() }
+                } label: {
+                    Image(systemName: showingCompass ? "map.fill" : "location.north.circle.fill")
+                        .font(.title2)
+                        .foregroundStyle(Brand.navy)
+                }
+                .accessibilityLabel(showingCompass ? "Show map" : "Show compass")
             }
             if let progress = env.tripSession.progressFraction {
                 ProgressView(value: progress)

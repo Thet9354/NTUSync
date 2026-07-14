@@ -37,6 +37,11 @@ final class LocationService: NSObject, CLLocationManagerDelegate {
     private(set) var isGPSDenied = false
     private(set) var authorization: CLAuthorizationStatus = .notDetermined
     private(set) var tier: LocationTier = .idle
+    /// Degrees clockwise from north (true when available, magnetic otherwise);
+    /// nil until the first heading event or when heading is unsupported.
+    private(set) var headingDegrees: Double?
+    /// CLHeading accuracy in degrees; negative = invalid.
+    private(set) var headingAccuracy: Double = -1
 
     var onFix: ((_ fix: GeoPoint, _ accuracy: Double) -> Void)?
     var onGPSDenialChange: ((_ denied: Bool) -> Void)?
@@ -57,6 +62,21 @@ final class LocationService: NSObject, CLLocationManagerDelegate {
 
     func stopUpdates() {
         manager.stopUpdatingLocation()
+    }
+
+    /// Compass-mode support. Heading needs no extra permission; unavailable
+    /// hardware (simulator) simply never delivers an event, so `headingDegrees`
+    /// stays nil and the UI degrades honestly.
+    func startHeadingUpdates() {
+        guard CLLocationManager.headingAvailable() else {
+            Logger.location.notice("heading unavailable on this device")
+            return
+        }
+        manager.startUpdatingHeading()
+    }
+
+    func stopHeadingUpdates() {
+        manager.stopUpdatingHeading()
     }
 
     func setTier(_ tier: LocationTier) {
@@ -88,6 +108,16 @@ final class LocationService: NSObject, CLLocationManagerDelegate {
                 self.onGPSDenialChange?(denied)
             }
             self.onFix?(point, accuracy)
+        }
+    }
+
+    nonisolated func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        // Extract plain values before the actor hop — CLHeading isn't Sendable.
+        let degrees = newHeading.trueHeading >= 0 ? newHeading.trueHeading : newHeading.magneticHeading
+        let accuracy = newHeading.headingAccuracy
+        Task { @MainActor in
+            self.headingDegrees = degrees >= 0 ? degrees : nil
+            self.headingAccuracy = accuracy
         }
     }
 
