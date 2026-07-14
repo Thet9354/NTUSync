@@ -23,8 +23,8 @@ Owner is a student building this as a scholarship/internship flagship. Paid Appl
 - Swift Testing (`@Test`/`#expect`), not XCTest. `#expect` cannot wrap a mutating method call — hoist the call to a `let` first.
 
 ## Current state
-- **6 commits, all pushed to `origin/main`** (`Thet9354/NTUSync`). Working tree clean. Latest: `d2d405a Add 13-week semester grid view`, preceded by `551bc60` (Phase 2) and `5942446` (Phase 1). Owner commits/pushes manually — always confirm with `git log --oneline` + `git status` before assuming.
-- **72 tests passing**, zero Swift warnings, builds clean for simulator and `generic/platform=iOS`.
+- **7 commits, all pushed to `origin/main`** (`Thet9354/NTUSync`). Working tree clean. Latest: `Add session conflict detection and .ics share export`, preceded by `ebbf0d9`/`d2d405a` (13-week grid), `551bc60` (Phase 2) and `5942446` (Phase 1). Owner commits/pushes manually — always confirm with `git log --oneline` + `git status` before assuming.
+- **88 tests passing**, zero Swift warnings, builds clean for simulator and `generic/platform=iOS`.
 - App icon, `NSSupportsLiveActivities`, location/motion/calendar-write-only/camera usage strings, `ITSAppUsesNonExemptEncryption=NO` all set (usage strings live as `INFOPLIST_KEY_*` build settings in the pbxproj, duplicated across Debug + Release).
 - **Store is now on SchemaV2** (`Persistence/SchemaV2.swift`): evolving models (`StudyBench`, `UserSettings`) are namespaced inside their `VersionedSchema` enum with top-level typealiases pointing at the current version; unchanged models (`Course`, `ClassSession`, `Venue`) stay top-level and are shared by both schemas' `models` arrays. V1 → V2 is a lightweight stage. Follow this exact pattern for SchemaV3.
 
@@ -38,8 +38,12 @@ Routing (A*, 45-node/138-edge graph, 4 travel profiles), time-dependent shuttle 
 4. **Bench photos** (`UI/BenchPhotoSection.swift`, shared by add + detail sheets): PhotosPicker + `UIImagePickerController` camera bridge; all photos pass through `Support/ImageProcessing.swift` (≤1600 px JPEG) into `.externalStorage`.
 5. **My-hall shelf** (`Trip/HallShelfPlanner.swift` + `UI/HallShelf.swift`): hall picker in Settings (`UserSettings.homeNodeID`); Explore tab shows nearest open Eat/Groceries/Gym/Study from the hall by real walk time, plus one-tap "Route home" into the trip flow.
 
+**Phase 2 nice-to-haves (B3, all done):**
+6. **Session conflict detection** (`Integrations/SessionConflictDetector.swift` pure + tested): `ScheduleSlot` Sendable projection; `overlaps` = same weekday **AND** teaching-weeks bitmask intersection ≠ 0 **AND** half-open time-range overlap (back-to-back sessions don't clash). Surfaced live in the add-course flow (`AddCourseView` shows a non-blocking "Schedule conflict" section) and flagged with an orange triangle on the timetable list (`conflictingIndices` → `ClassSession.scheduleSlot`).
+7. **`.ics` share export** (`Integrations/ICSExporter.swift` pure + tested): reuses `TimetableEventPlanner`'s dated-event expansion (one VEVENT per occurrence, no RRULEs), RFC 5545 with CRLF/UTC/TEXT-escaping/75-octet folding; shared from Settings via `ShareLink` to a temp `NTUSync-Semester.ics`. No permissions — just a file.
+
 ## What's NEXT (see Docs/FEATURE_ROADMAP_V2.md for full detail)
-- **Phase 2 nice-to-haves (B3), still unbuilt:** session conflict detection (bitmask intersection), `.ics` share export (no permissions at all). The **13-week grid view is DONE** (`UI/WeekGridView.swift`: week × weekday matrix off the Timetable toolbar, recess row, current-week highlight, tappable cells; pure math in `WeekGrid` is tested).
+- **All of B3 is now DONE** — 13-week grid (`UI/WeekGridView.swift`), session conflict detection, and `.ics` share export. Only Exam mode remains from the B3 list, deferred to Phase 3.
 - **Manual device passes worth doing before launch:** calendar export round-trip (incl. re-export), a real leave-now notification firing + tap deep-link, camera capture, Look Around online/offline.
 - **Phase 3 (post-launch, needs paid membership):** CloudKit public DB for community benches + occupancy check-ins (30-min TTL), compass-mode navigation (true AR geo-tracking is NOT available in Singapore), exam mode.
 

@@ -8,6 +8,7 @@ struct SettingsView: View {
     @Query(sort: \Course.code) private var courses: [Course]
     @State private var isExporting = false
     @State private var exportStatus: String?
+    @State private var icsURL: URL?
 
     var body: some View {
         NavigationStack {
@@ -92,6 +93,21 @@ struct SettingsView: View {
                     Text("Writes every session of the semester as individual dated events into a dedicated \"NTUSync\" calendar — odd/even weeks and the recess week stay correct. Re-exporting replaces the previous export. Google Calendar works too if your Google account is added to iOS Calendar.")
                 }
 
+                Section {
+                    if let icsURL {
+                        ShareLink(item: icsURL) {
+                            Label("Share semester as .ics file", systemImage: "square.and.arrow.up")
+                        }
+                    } else {
+                        Label("Add courses to share a .ics file", systemImage: "square.and.arrow.up")
+                            .foregroundStyle(.secondary)
+                    }
+                } header: {
+                    Text("Any calendar app")
+                } footer: {
+                    Text("Exports the whole semester as a standard .ics file — one dated event per session — that opens in Google Calendar, Outlook, or any calendar app. It's just a file, so no permissions are needed.")
+                }
+
                 Section("Campus data") {
                     LabeledContent("Graph nodes", value: "\(env.graph.nodes.count)")
                     LabeledContent("Graph edges", value: "\(env.graph.edgeCount)")
@@ -115,6 +131,50 @@ struct SettingsView: View {
                     Button("Done") { dismiss() }
                 }
             }
+            .task(id: icsSignature) { rebuildICS() }
+        }
+    }
+
+    /// Changes whenever the exported schedule would change, so the shared `.ics`
+    /// file is regenerated to match the current courses.
+    private var icsSignature: Int {
+        var hasher = Hasher()
+        hasher.combine(settings.first?.semesterStartDate)
+        for course in courses {
+            hasher.combine(course.code)
+            for session in course.sessions {
+                hasher.combine(session.kind)
+                hasher.combine(session.dayOfWeek)
+                hasher.combine(session.startMinutes)
+                hasher.combine(session.durationMinutes)
+                hasher.combine(session.teachingWeeksMask)
+                hasher.combine(session.venue?.shortName)
+            }
+        }
+        return hasher.finalize()
+    }
+
+    /// Write the semester `.ics` to a temp file for `ShareLink`; clears the link
+    /// when there's nothing to export.
+    private func rebuildICS() {
+        guard let semesterStart = settings.first?.semesterStartDate, !courses.isEmpty else {
+            icsURL = nil
+            return
+        }
+        let snapshots = SessionSnapshot.snapshots(of: courses)
+        let events = TimetableEventPlanner.events(for: snapshots, semesterStart: semesterStart)
+        guard !events.isEmpty else {
+            icsURL = nil
+            return
+        }
+        let ics = ICSExporter.makeCalendar(from: events)
+        let url = FileManager.default.temporaryDirectory
+            .appendingPathComponent("NTUSync-Semester.ics")
+        do {
+            try ics.write(to: url, atomically: true, encoding: .utf8)
+            icsURL = url
+        } catch {
+            icsURL = nil
         }
     }
 

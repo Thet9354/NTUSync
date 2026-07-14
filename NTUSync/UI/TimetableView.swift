@@ -88,7 +88,8 @@ struct TimetableView: View {
                 ForEach(courses) { course in
                     Section {
                         ForEach(course.sessions.sorted { ($0.dayOfWeek, $0.startMinutes) < ($1.dayOfWeek, $1.startMinutes) }) { session in
-                            SessionRow(session: session)
+                            SessionRow(session: session,
+                                       isConflicting: conflictingSessionIDs.contains(session.persistentModelID))
                         }
                     } header: {
                         HStack {
@@ -247,6 +248,14 @@ struct TimetableView: View {
         return nil
     }
 
+    /// Persistent IDs of sessions that clash with another session anywhere in
+    /// the timetable (same weekday, overlapping teaching weeks and time).
+    private var conflictingSessionIDs: Set<PersistentIdentifier> {
+        let all = courses.flatMap(\.sessions)
+        let indices = SessionConflictDetector.conflictingIndices(in: all.map(\.scheduleSlot))
+        return Set(indices.map { all[$0].persistentModelID })
+    }
+
     private var nextClass: (session: ClassSession, date: Date)? {
         guard let semesterStart = settings.first?.semesterStartDate else { return nil }
         let calendar = TeachingCalendar(semesterStart: semesterStart)
@@ -270,6 +279,15 @@ extension Course {
     /// Deterministic per-course identity color from the stored seed.
     var themeColor: Color {
         Color(hue: Double(((colorSeed % 12) + 12) % 12) / 12.0, saturation: 0.62, brightness: 0.70)
+    }
+}
+
+extension ClassSession {
+    /// Sendable scheduling projection for pure clash detection.
+    var scheduleSlot: ScheduleSlot {
+        ScheduleSlot(label: "\(course?.code ?? "?") \(kind.rawValue.capitalized)",
+                     dayOfWeek: dayOfWeek, startMinutes: startMinutes,
+                     durationMinutes: durationMinutes, teachingWeeksMask: teachingWeeksMask)
     }
 }
 
@@ -314,6 +332,7 @@ struct NextClassCard: View {
 
 struct SessionRow: View {
     let session: ClassSession
+    var isConflicting = false
 
     private static let dayNames = ["", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
@@ -324,6 +343,12 @@ struct SessionRow: View {
                 Text("\(session.kind.rawValue) · \(session.venue?.shortName ?? "no venue") · \(weeksText)")
                     .font(.caption)
                     .foregroundStyle(.secondary)
+            }
+            if isConflicting {
+                Spacer()
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .foregroundStyle(.orange)
+                    .accessibilityLabel("Clashes with another session")
             }
         }
     }
@@ -346,6 +371,7 @@ struct AddCourseView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     @Query(sort: \Venue.shortName) private var venues: [Venue]
+    @Query private var courses: [Course]
 
     @State private var code = ""
     @State private var title = ""
@@ -395,6 +421,23 @@ struct AddCourseView: View {
                         }
                     }
                 }
+                if !conflicts.isEmpty {
+                    Section {
+                        ForEach(conflicts, id: \.self) { clash in
+                            Label {
+                                Text("Overlaps \(clash.label) (\(timeRange(clash)))")
+                            } icon: {
+                                Image(systemName: "exclamationmark.triangle.fill")
+                                    .foregroundStyle(.orange)
+                            }
+                            .font(.caption)
+                        }
+                    } header: {
+                        Text("Schedule conflict")
+                    } footer: {
+                        Text("This session shares a weekday, teaching week, and time with the above. You can still save it.")
+                    }
+                }
             }
             .navigationTitle("Add course")
             .toolbar {
@@ -407,6 +450,34 @@ struct AddCourseView: View {
                 }
             }
         }
+    }
+
+    /// The session the form currently describes.
+    private var candidateSlot: ScheduleSlot {
+        ScheduleSlot(label: "New session", dayOfWeek: dayOfWeek,
+                     startMinutes: startHour * 60, durationMinutes: durationMinutes,
+                     teachingWeeksMask: weeksPreset.mask)
+    }
+
+    /// Every already-saved session, projected for clash testing.
+    private var existingSlots: [ScheduleSlot] {
+        courses.flatMap { course in
+            course.sessions.map { session in
+                ScheduleSlot(label: "\(course.code) \(session.kind.rawValue.capitalized)",
+                             dayOfWeek: session.dayOfWeek, startMinutes: session.startMinutes,
+                             durationMinutes: session.durationMinutes,
+                             teachingWeeksMask: session.teachingWeeksMask)
+            }
+        }
+    }
+
+    private var conflicts: [ScheduleSlot] {
+        SessionConflictDetector.conflicts(for: candidateSlot, against: existingSlots)
+    }
+
+    private func timeRange(_ slot: ScheduleSlot) -> String {
+        func hhmm(_ m: Int) -> String { String(format: "%02d:%02d", m / 60, m % 60) }
+        return "\(hhmm(slot.startMinutes))–\(hhmm(slot.endMinutes))"
     }
 
     private func save() {
