@@ -44,7 +44,7 @@ Routing (A*, 45-node/138-edge graph, 4 travel profiles), time-dependent shuttle 
 
 ## What's NEXT (see Docs/FEATURE_ROADMAP_V2.md for full detail)
 - **All of B3 is now DONE** — 13-week grid (`UI/WeekGridView.swift`), session conflict detection, and `.ics` share export. Only Exam mode remains from the B3 list, deferred to Phase 3.
-- **Manual device passes worth doing before launch:** calendar export round-trip (incl. re-export), a real leave-now notification firing + tap deep-link, camera capture, Look Around online/offline.
+- **Manual device passes worth doing before launch:** calendar export round-trip (incl. re-export), a real leave-now notification firing + tap deep-link, camera capture, Look Around online/offline, `.ics` share sheet round-trip (share the semester and confirm it imports cleanly into Apple Calendar / Google Calendar / Outlook with odd/even weeks and recess intact).
 - **Phase 3 (post-launch, needs paid membership):** CloudKit public DB for community benches + occupancy check-ins (30-min TTL), compass-mode navigation (true AR geo-tracking is NOT available in Singapore), exam mode.
 
 ## Known honesty caveats in data
