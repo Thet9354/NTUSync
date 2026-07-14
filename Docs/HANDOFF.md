@@ -23,7 +23,7 @@ Owner is a student building this as a scholarship/internship flagship. Paid Appl
 - Swift Testing (`@Test`/`#expect`), not XCTest. `#expect` cannot wrap a mutating method call — hoist the call to a `let` first.
 
 ## Current state
-- **9 commits, all pushed to `origin/main`** (`Thet9354/NTUSync`). Working tree clean. Latest: `Update HANDOFF commit count to 8`, preceded by `f9e992c`/`f48429c` (B3 conflict detection + `.ics` export), `ebbf0d9`/`d2d405a` (13-week grid), `551bc60` (Phase 2) and `5942446` (Phase 1). Owner commits/pushes manually — always confirm with `git log --oneline` + `git status` before assuming.
+- **9+ commits, all pushed to `origin/main`** (`Thet9354/NTUSync`). Working tree clean. Latest: `Update HANDOFF commit count to 8`, preceded by `f9e992c`/`f48429c` (B3 conflict detection + `.ics` export), `ebbf0d9`/`d2d405a` (13-week grid), `551bc60` (Phase 2) and `5942446` (Phase 1). Owner commits/pushes manually — always confirm with `git log --oneline` + `git status` before assuming.
 - **88 tests passing**, zero Swift warnings, builds clean for simulator and `generic/platform=iOS`.
 - App icon, `NSSupportsLiveActivities`, location/motion/calendar-write-only/camera usage strings, `ITSAppUsesNonExemptEncryption=NO` all set (usage strings live as `INFOPLIST_KEY_*` build settings in the pbxproj, duplicated across Debug + Release).
 - **Store is now on SchemaV2** (`Persistence/SchemaV2.swift`): evolving models (`StudyBench`, `UserSettings`) are namespaced inside their `VersionedSchema` enum with top-level typealiases pointing at the current version; unchanged models (`Course`, `ClassSession`, `Venue`) stay top-level and are shared by both schemas' `models` arrays. V1 → V2 is a lightweight stage. Follow this exact pattern for SchemaV3.
