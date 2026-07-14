@@ -7,7 +7,7 @@ import SwiftData
 struct PersistenceTests {
 
     static func makeInMemoryContainer() throws -> ModelContainer {
-        let schema = Schema(versionedSchema: SchemaV2.self)
+        let schema = Schema(versionedSchema: SchemaV3.self)
         let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
         return try ModelContainer(for: schema, configurations: configuration)
     }
@@ -103,6 +103,74 @@ struct PersistenceTests {
         // The new entity is queryable on the migrated store.
         let photoCount = try context.fetchCount(FetchDescriptor<CheckpointPhoto>())
         #expect(photoCount == 0)
+    }
+
+    /// Real on-disk V2 → V3 migration: existing rows survive and the new
+    /// ExamEvent entity is queryable on the migrated store.
+    @Test func lightweightMigrationV2ToV3PreservesData() throws {
+        let storeURL = URL.temporaryDirectory
+            .appending(path: "migration-test-\(UUID().uuidString).store")
+        defer {
+            try? FileManager.default.removeItem(at: storeURL)
+            try? FileManager.default.removeItem(at: storeURL.deletingPathExtension().appendingPathExtension("store-shm"))
+            try? FileManager.default.removeItem(at: storeURL.deletingPathExtension().appendingPathExtension("store-wal"))
+        }
+
+        // Write a V2-shaped store, then release the container.
+        do {
+            let v2 = try ModelContainer(
+                for: Schema(versionedSchema: SchemaV2.self),
+                configurations: ModelConfiguration(url: storeURL)
+            )
+            let context = ModelContext(v2)
+            context.insert(SchemaV2.UserSettings(semesterStartDate: .now, seedVersion: 5,
+                                                 homeNodeID: "hall.6"))
+            context.insert(SchemaV2.CheckpointPhoto(nodeID: "indoor.hive-atrium", photo: Data([7])))
+            try context.save()
+        }
+
+        // Reopen at V3 through the migration plan.
+        let v3 = try ModelContainer(
+            for: Schema(versionedSchema: SchemaV3.self),
+            migrationPlan: NTUSyncMigrationPlan.self,
+            configurations: ModelConfiguration(url: storeURL)
+        )
+        let context = ModelContext(v3)
+
+        let settings = try context.fetch(FetchDescriptor<UserSettings>())
+        #expect(settings.count == 1)
+        #expect(settings.first?.seedVersion == 5)
+        #expect(settings.first?.homeNodeID == "hall.6")
+
+        let photos = try context.fetch(FetchDescriptor<CheckpointPhoto>())
+        #expect(photos.count == 1)
+        #expect(photos.first?.photo == Data([7]))
+
+        // The new entity is empty but queryable, and accepts inserts.
+        #expect(try context.fetchCount(FetchDescriptor<ExamEvent>()) == 0)
+        context.insert(ExamEvent(courseCode: "SC2005", date: .now, durationMinutes: 120))
+        try context.save()
+        #expect(try context.fetchCount(FetchDescriptor<ExamEvent>()) == 1)
+    }
+
+    @Test func examEventRoundTrips() throws {
+        let container = try Self.makeInMemoryContainer()
+        let context = container.mainContext
+
+        context.insert(ExamEvent(courseCode: "SC2005", date: .now.addingTimeInterval(86_400),
+                                 durationMinutes: 120, venueName: "SRC Hall",
+                                 seatNumber: "A-042"))
+        try context.save()
+
+        let fetched = try context.fetch(FetchDescriptor<ExamEvent>())
+        #expect(fetched.count == 1)
+        #expect(fetched.first?.courseCode == "SC2005")
+        #expect(fetched.first?.venueName == "SRC Hall")
+        #expect(fetched.first?.seatNumber == "A-042")
+
+        context.delete(fetched[0])
+        try context.save()
+        #expect(try context.fetchCount(FetchDescriptor<ExamEvent>()) == 0)
     }
 
     @Test func benchPhotoRoundTrips() throws {

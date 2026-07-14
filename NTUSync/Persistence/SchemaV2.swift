@@ -80,14 +80,8 @@ nonisolated enum SchemaV2: VersionedSchema {
     }
 }
 
-/// The rest of the app always talks to the *current* schema version.
+/// These models are unchanged in V3, so their typealiases still point here.
+/// The migration plan lives in the current version's file (SchemaV3.swift).
 typealias StudyBench = SchemaV2.StudyBench
 typealias UserSettings = SchemaV2.UserSettings
 typealias CheckpointPhoto = SchemaV2.CheckpointPhoto
-
-nonisolated enum NTUSyncMigrationPlan: SchemaMigrationPlan {
-    static var schemas: [any VersionedSchema.Type] { [SchemaV1.self, SchemaV2.self] }
-    static var stages: [MigrationStage] {
-        [.lightweight(fromVersion: SchemaV1.self, toVersion: SchemaV2.self)]
-    }
-}

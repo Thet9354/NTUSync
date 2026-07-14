@@ -25,7 +25,7 @@ struct NTUSyncApp: App {
     /// §5.5 recovery: a store that fails to open is moved aside and rebuilt
     /// from seed rather than bricking the app.
     private static func makeContainer() -> ModelContainer {
-        let schema = Schema(versionedSchema: SchemaV2.self)
+        let schema = Schema(versionedSchema: SchemaV3.self)
         let configuration = ModelConfiguration(schema: schema)
         do {
             return try ModelContainer(for: schema, migrationPlan: NTUSyncMigrationPlan.self, configurations: [configuration])
