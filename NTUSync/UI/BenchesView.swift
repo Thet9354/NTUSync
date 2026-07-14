@@ -7,7 +7,13 @@ struct BenchesView: View {
     @Environment(AppEnvironment.self) private var env
     @Query private var benches: [StudyBench]
 
-    @State private var selectedBenchID: PersistentIdentifier?
+    /// Anything tappable on the map: user benches and curated amenity pins.
+    enum MapPick: Hashable {
+        case bench(PersistentIdentifier)
+        case amenity(String)
+    }
+
+    @State private var selection: MapPick?
     @State private var isPlacingBench = false
     @State private var pendingCoordinate: GeoPoint?
     /// Empty = every category visible; chips narrow the amenity layer.
@@ -20,7 +26,7 @@ struct BenchesView: View {
                 Map(initialPosition: .region(MKCoordinateRegion(
                     center: CLLocationCoordinate2D(latitude: 1.3465, longitude: 103.6840),
                     span: MKCoordinateSpan(latitudeDelta: 0.018, longitudeDelta: 0.018)
-                )), selection: $selectedBenchID) {
+                )), selection: $selection) {
                     ForEach(benches) { bench in
                         Marker(
                             markerTitle(for: bench),
@@ -28,7 +34,7 @@ struct BenchesView: View {
                             coordinate: CLLocationCoordinate2D(latitude: bench.latitude, longitude: bench.longitude)
                         )
                         .tint(bench.isSheltered ? .green : .orange)
-                        .tag(bench.persistentModelID)
+                        .tag(MapPick.bench(bench.persistentModelID))
                     }
                     if showAmenities {
                         ForEach(env.amenities.amenities(in: selectedCategories)) { amenity in
@@ -38,6 +44,7 @@ struct BenchesView: View {
                                 coordinate: CLLocationCoordinate2D(latitude: amenity.latitude, longitude: amenity.longitude)
                             )
                             .tint(amenity.category.tint)
+                            .tag(MapPick.amenity(amenity.id))
                         }
                     }
                 }
@@ -86,6 +93,10 @@ struct BenchesView: View {
                 BenchDetailView(bench: bench)
                     .presentationDetents([.medium])
             }
+            .sheet(item: selectedAmenityBinding) { amenity in
+                AmenityDetailView(amenity: amenity)
+                    .presentationDetents([.medium])
+            }
             .sheet(item: $pendingCoordinate) { coordinate in
                 AddBenchView(coordinate: coordinate)
                     .presentationDetents([.medium])
@@ -130,8 +141,21 @@ struct BenchesView: View {
 
     private var selectedBenchBinding: Binding<StudyBench?> {
         Binding(
-            get: { benches.first { $0.persistentModelID == selectedBenchID } },
-            set: { selectedBenchID = $0?.persistentModelID }
+            get: {
+                guard case .bench(let id) = selection else { return nil }
+                return benches.first { $0.persistentModelID == id }
+            },
+            set: { selection = $0.map { .bench($0.persistentModelID) } }
+        )
+    }
+
+    private var selectedAmenityBinding: Binding<Amenity?> {
+        Binding(
+            get: {
+                guard case .amenity(let id) = selection else { return nil }
+                return env.amenities.amenities.first { $0.id == id }
+            },
+            set: { selection = $0.map { .amenity($0.id) } }
         )
     }
 
@@ -355,5 +379,109 @@ struct BenchDetailView: View {
     private var nearName: String {
         let node = env.graph.nodes[NodeID(bench.graphNodeID)]
         return node?.displayName ?? bench.graphNodeID
+    }
+}
+
+/// Detail sheet for a curated amenity pin — read-only info plus the same
+/// "Take me there" trip flow benches get.
+struct AmenityDetailView: View {
+    @Environment(AppEnvironment.self) private var env
+    @Environment(\.dismiss) private var dismiss
+
+    let amenity: Amenity
+    @State private var isRouting = false
+    @State private var navigateError: String?
+    @State private var showTripMap = false
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section {
+                    Button {
+                        Task { await navigate() }
+                    } label: {
+                        Label(isRouting ? "Routing…" : "Take me there",
+                              systemImage: "figure.walk.circle.fill")
+                            .font(.headline)
+                    }
+                    .disabled(isRouting || env.tripSession.isActive)
+                    if let navigateError {
+                        Label(navigateError, systemImage: "exclamationmark.triangle")
+                            .font(.caption)
+                            .foregroundStyle(.orange)
+                    }
+                }
+                Section {
+                    LabeledContent("Category") {
+                        Label(amenity.category.displayName, systemImage: amenity.category.icon)
+                            .foregroundStyle(amenity.category.tint)
+                    }
+                    LabeledContent("Near", value: nearName)
+                    LabeledContent("Hours") {
+                        HStack(spacing: 6) {
+                            Circle()
+                                .fill(amenity.isOpen(at: .now) ? .green : .red)
+                                .frame(width: 8, height: 8)
+                            Text("\(amenity.isOpen(at: .now) ? "Open" : "Closed") · \(amenity.hoursText)")
+                        }
+                    }
+                    if let note = amenity.note {
+                        Text(note)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+            }
+            .navigationTitle(amenity.name)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Done") { dismiss() }
+                }
+            }
+            .fullScreenCover(isPresented: $showTripMap, onDismiss: { dismiss() }) {
+                LiveTripView()
+            }
+        }
+    }
+
+    private func navigate() async {
+        isRouting = true
+        defer { isRouting = false }
+        navigateError = nil
+
+        env.location.requestPermission()
+        env.location.startUpdates()
+        var origin: NodeID?
+        for _ in 0..<6 {
+            if let fix = env.location.lastFix {
+                origin = await env.routeEngine.nearestNode(to: fix, where: { !$0.isIndoor })
+                break
+            }
+            try? await Task.sleep(for: .milliseconds(500))
+        }
+        guard let origin else {
+            navigateError = "No location fix yet — step outside or try again."
+            return
+        }
+        do {
+            let route = try await env.routeEngine.route(RouteQuery(
+                origin: origin, destination: amenity.graphNodeID,
+                departure: .now, profile: .fastest
+            ))
+            try? await env.tripSession.start(
+                route: route,
+                summary: "\(env.displayName(for: origin)) → \(amenity.name)",
+                nextClass: nil
+            )
+            env.beginTripSensing()
+            showTripMap = true
+        } catch {
+            navigateError = "No route found from your position."
+        }
+    }
+
+    private var nearName: String {
+        env.graph.nodes[amenity.graphNodeID]?.displayName ?? amenity.graphNodeID.rawValue
     }
 }
