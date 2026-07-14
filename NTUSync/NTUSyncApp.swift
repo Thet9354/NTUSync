@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import TipKit
 import os
 
 @main
@@ -9,6 +10,9 @@ struct NTUSyncApp: App {
 
     init() {
         container = Self.makeContainer()
+        // Contextual first-run tips (UI/Tips/AppTips.swift). Display state
+        // persists on-device; tips show at most one at a time, once each.
+        try? Tips.configure([.displayFrequency(.immediate)])
     }
 
     var body: some Scene {

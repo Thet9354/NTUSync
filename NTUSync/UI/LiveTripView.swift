@@ -1,5 +1,6 @@
 import SwiftUI
 import MapKit
+import TipKit
 
 /// Full-screen live trip: route on the map, real-time user position, progress,
 /// and phase controls. The in-app counterpart of the Live Activity.
@@ -77,6 +78,7 @@ struct LiveTripView: View {
                         .foregroundStyle(Brand.navy)
                 }
                 .accessibilityLabel(showingCompass ? "Show map" : "Show compass")
+                .popoverTip(CompassTip())
             }
             if let progress = env.tripSession.progressFraction {
                 ProgressView(value: progress)

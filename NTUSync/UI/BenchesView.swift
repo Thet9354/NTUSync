@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 import MapKit
+import TipKit
 
 struct BenchesView: View {
     @Environment(AppEnvironment.self) private var env
@@ -96,7 +97,7 @@ struct BenchesView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
                 FilterChip(label: "Benches", icon: "chair.lounge.fill", isOn: true, tint: .green) {}
-                FilterChip(label: "All places", icon: "sparkles", isOn: showAmenities && selectedCategories.isEmpty, tint: Brand.navy) {
+                FilterChip(label: "All places", icon: "square.grid.2x2", isOn: showAmenities && selectedCategories.isEmpty, tint: Brand.navy) {
                     withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
                         selectedCategories = []
                         showAmenities = true
@@ -124,6 +125,7 @@ struct BenchesView: View {
             .padding(.vertical, 8)
         }
         .background(.thinMaterial)
+        .popoverTip(ExploreTip())
     }
 
     private var selectedBenchBinding: Binding<StudyBench?> {

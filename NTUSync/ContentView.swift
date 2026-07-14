@@ -19,7 +19,7 @@ struct ContentView: View {
             Tab("Timetable", systemImage: "calendar", value: AppTab.timetable) {
                 TimetableView()
             }
-            Tab("Explore", systemImage: "sparkles", value: AppTab.explore) {
+            Tab("Explore", systemImage: "mappin.and.ellipse", value: AppTab.explore) {
                 BenchesView()
             }
         }

@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import TipKit
 
 struct TimetableView: View {
     @Environment(AppEnvironment.self) private var env
@@ -33,6 +34,7 @@ struct TimetableView: View {
                     Section("Next class") {
                         NextClassCard(session: next.session, date: next.date)
                             .listRowInsets(EdgeInsets())
+                            .popoverTip(RouteToClassTip())
                         if next.session.venue != nil {
                             Picker("From", selection: $originChoice) {
                                 Text("Current location").tag(nil as NodeID?)
@@ -68,7 +70,7 @@ struct TimetableView: View {
                 if let gap = todaysGap {
                     Section("Free time today · \(gap.minutes) min between \(gap.fromCode) and \(gap.toCode)") {
                         if gapSuggestions.isEmpty {
-                            Label("Finding nearby ideas…", systemImage: "sparkles")
+                            Label("Finding nearby ideas…", systemImage: "lightbulb")
                                 .foregroundStyle(.secondary)
                         }
                         ForEach(gapSuggestions) { suggestion in
@@ -116,17 +118,22 @@ struct TimetableView: View {
             }
             .navigationTitle("Timetable")
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button("Settings", systemImage: "gearshape") { showingSettings = true }
-                }
+                // Two items, not four: the primary action stays one tap; the
+                // rest live behind a labelled overflow so first-timers aren't
+                // decoding a row of cryptic glyphs.
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Exams", systemImage: "hourglass") { showingExams = true }
-                }
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Week grid", systemImage: "square.grid.3x3") { showingWeekGrid = true }
+                    Menu {
+                        Button("Exams", systemImage: "hourglass") { showingExams = true }
+                        Button("Semester grid", systemImage: "square.grid.3x3") { showingWeekGrid = true }
+                        Divider()
+                        Button("Settings", systemImage: "gearshape") { showingSettings = true }
+                    } label: {
+                        Label("More", systemImage: "ellipsis.circle")
+                    }
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Add course", systemImage: "plus") { showingAddCourse = true }
+                        .popoverTip(AddCourseTip())
                 }
             }
             .sheet(isPresented: $showingAddCourse) {
@@ -140,6 +147,10 @@ struct TimetableView: View {
             }
             .sheet(isPresented: $showingExams) {
                 ExamsView()
+            }
+            // Retire the add-course tip once anything (user or seed) adds one.
+            .task(id: courses.isEmpty) {
+                AddCourseTip.hasCourses = !courses.isEmpty
             }
             .task(id: todaysGap) {
                 gapSuggestions = []
