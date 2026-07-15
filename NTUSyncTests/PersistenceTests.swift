@@ -7,7 +7,7 @@ import SwiftData
 struct PersistenceTests {
 
     static func makeInMemoryContainer() throws -> ModelContainer {
-        let schema = Schema(versionedSchema: SchemaV3.self)
+        let schema = Schema(versionedSchema: SchemaV4.self)
         let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
         return try ModelContainer(for: schema, configurations: configuration)
     }
@@ -151,6 +151,76 @@ struct PersistenceTests {
         context.insert(ExamEvent(courseCode: "SC2005", date: .now, durationMinutes: 120))
         try context.save()
         #expect(try context.fetchCount(FetchDescriptor<ExamEvent>()) == 1)
+    }
+
+    /// Real on-disk V3 → V4 migration: existing rows survive and the new
+    /// UserPlace entity is queryable on the migrated store.
+    @Test func lightweightMigrationV3ToV4PreservesData() throws {
+        let storeURL = URL.temporaryDirectory
+            .appending(path: "migration-test-\(UUID().uuidString).store")
+        defer {
+            try? FileManager.default.removeItem(at: storeURL)
+            try? FileManager.default.removeItem(at: storeURL.deletingPathExtension().appendingPathExtension("store-shm"))
+            try? FileManager.default.removeItem(at: storeURL.deletingPathExtension().appendingPathExtension("store-wal"))
+        }
+
+        // Write a V3-shaped store, then release the container.
+        do {
+            let v3 = try ModelContainer(
+                for: Schema(versionedSchema: SchemaV3.self),
+                configurations: ModelConfiguration(url: storeURL)
+            )
+            let context = ModelContext(v3)
+            context.insert(SchemaV3.ExamEvent(courseCode: "SC2005", date: .now,
+                                              durationMinutes: 120, seatNumber: "A-042"))
+            context.insert(SchemaV2.UserSettings(semesterStartDate: .now, seedVersion: 7))
+            try context.save()
+        }
+
+        // Reopen at V4 through the migration plan.
+        let v4 = try ModelContainer(
+            for: Schema(versionedSchema: SchemaV4.self),
+            migrationPlan: NTUSyncMigrationPlan.self,
+            configurations: ModelConfiguration(url: storeURL)
+        )
+        let context = ModelContext(v4)
+
+        let exams = try context.fetch(FetchDescriptor<ExamEvent>())
+        #expect(exams.count == 1)
+        #expect(exams.first?.seatNumber == "A-042")
+        #expect(try context.fetch(FetchDescriptor<UserSettings>()).first?.seedVersion == 7)
+
+        // The new entity is empty but queryable, and accepts inserts.
+        #expect(try context.fetchCount(FetchDescriptor<UserPlace>()) == 0)
+        context.insert(UserPlace(name: "Mala stall", categoryRaw: "food",
+                                 latitude: 1.344, longitude: 103.685,
+                                 graphNodeID: "bldg.canteen2"))
+        try context.save()
+        #expect(try context.fetchCount(FetchDescriptor<UserPlace>()) == 1)
+    }
+
+    @Test func userPlaceRoundTripsAndMapsCategory() throws {
+        let container = try Self.makeInMemoryContainer()
+        let context = container.mainContext
+
+        context.insert(UserPlace(name: "Mala stall", categoryRaw: "food",
+                                 latitude: 1.344, longitude: 103.685,
+                                 graphNodeID: "bldg.canteen2", note: "open till late"))
+        context.insert(UserPlace(name: "Secret spot", categoryRaw: nil,
+                                 latitude: 1.345, longitude: 103.684,
+                                 graphNodeID: "bldg.hive"))
+        try context.save()
+
+        let places = try context.fetch(FetchDescriptor<UserPlace>(sortBy: [SortDescriptor(\.name)]))
+        #expect(places.count == 2)
+        #expect(places[0].category == .food)
+        #expect(places[0].icon == "fork.knife")
+        #expect(places[1].category == nil)           // custom pin
+        #expect(places[1].icon == "mappin")
+
+        context.delete(places[0])
+        try context.save()
+        #expect(try context.fetchCount(FetchDescriptor<UserPlace>()) == 1)
     }
 
     @Test func examEventRoundTrips() throws {
