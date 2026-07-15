@@ -32,7 +32,7 @@ struct BenchesView: View {
     @State private var camera: MapCameraPosition = .region(Self.campusRegion)
     @State private var lastCamera: MapCamera?
     @State private var is3D = false
-    @State private var isSatellite = false
+    @State private var isSatellite = true
     @State private var searchQuery = ""
 
     var body: some View {
