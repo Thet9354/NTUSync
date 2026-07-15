@@ -4,7 +4,14 @@ import os
 struct RoutePlannerView: View {
     @Environment(AppEnvironment.self) private var env
 
-    @State private var origin: NodeID?
+    /// Trip origin: unset placeholder, live GPS, or a fixed campus node.
+    enum OriginChoice: Hashable {
+        case unset
+        case currentLocation
+        case node(NodeID)
+    }
+
+    @State private var origin: OriginChoice = .unset
     @State private var destination: NodeID?
     @State private var departure = Date.now
     @State private var profile = TravelProfile.fastest
@@ -18,9 +25,11 @@ struct RoutePlannerView: View {
             Form {
                 Section("Trip") {
                     Picker("From", selection: $origin) {
-                        Text("Select…").tag(nil as NodeID?)
+                        Text("Select…").tag(OriginChoice.unset)
+                        Label("Current location", systemImage: "location.fill")
+                            .tag(OriginChoice.currentLocation)
                         ForEach(env.graph.namedNodes, id: \.id) { node in
-                            Text(node.displayName ?? node.id.rawValue).tag(node.id as NodeID?)
+                            Text(node.displayName ?? node.id.rawValue).tag(OriginChoice.node(node.id))
                         }
                     }
                     Picker("To", selection: $destination) {
@@ -41,7 +50,7 @@ struct RoutePlannerView: View {
                     Button(isRouting ? "Routing…" : "Find route") {
                         Task { await findRoute() }
                     }
-                    .disabled(origin == nil || destination == nil || origin == destination || isRouting)
+                    .disabled(!canRoute || isRouting)
                 }
 
                 if let errorMessage {
@@ -84,14 +93,44 @@ struct RoutePlannerView: View {
         env.pendingDestination = nil
     }
 
+    /// Ready to route: a destination plus either GPS or a distinct fixed origin.
+    private var canRoute: Bool {
+        guard let destination else { return false }
+        switch origin {
+        case .unset: return false
+        case .currentLocation: return true
+        case .node(let id): return id != destination
+        }
+    }
+
     private func findRoute() async {
-        guard let origin, let destination else { return }
+        guard let destination else { return }
         isRouting = true
         defer { isRouting = false }
         errorMessage = nil
+
+        let resolvedOrigin: NodeID?
+        switch origin {
+        case .unset:
+            return
+        case .node(let id):
+            resolvedOrigin = id
+        case .currentLocation:
+            resolvedOrigin = await resolveCurrentCampusNode(env: env)
+        }
+        guard let resolvedOrigin else {
+            route = nil
+            errorMessage = "No location fix yet — step outside or pick a starting point."
+            return
+        }
+        guard resolvedOrigin != destination else {
+            route = nil
+            errorMessage = "You're already at \(env.displayName(for: destination)) — pick another destination."
+            return
+        }
         do {
             route = try await env.routeEngine.route(
-                RouteQuery(origin: origin, destination: destination, departure: departure, profile: profile)
+                RouteQuery(origin: resolvedOrigin, destination: destination, departure: departure, profile: profile)
             )
         } catch RoutingError.noRouteFound {
             route = nil

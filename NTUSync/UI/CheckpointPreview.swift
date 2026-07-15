@@ -57,6 +57,61 @@ struct CheckpointSheet: View {
     }
 }
 
+/// Compact place imagery for Explore detail sheets: Apple Look Around where
+/// covered, a live map fallback otherwise — the sheet-sized sibling of
+/// `CheckpointPreview`, without the user-photo machinery.
+struct PlacePreview: View {
+    let title: String
+    let latitude: Double
+    let longitude: Double
+    var isIndoor = false
+
+    @State private var scene: MKLookAroundScene?
+    @State private var lookupDone = false
+
+    var body: some View {
+        Group {
+            if let scene {
+                LookAroundPreview(initialScene: scene)
+            } else if !lookupDone {
+                ZStack {
+                    mapFallback
+                    ProgressView()
+                }
+            } else {
+                mapFallback
+            }
+        }
+        .frame(height: 180)
+        .frame(maxWidth: .infinity)
+        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .task(id: "\(latitude),\(longitude)") {
+            scene = nil
+            lookupDone = false
+            // Indoor spots have no street imagery by definition; skip straight
+            // to the map. Offline lookups fail fast and fall back the same way.
+            if !isIndoor {
+                let request = MKLookAroundSceneRequest(coordinate: CLLocationCoordinate2D(
+                    latitude: latitude, longitude: longitude
+                ))
+                scene = try? await request.scene
+            }
+            lookupDone = true
+        }
+    }
+
+    private var mapFallback: some View {
+        Map(initialPosition: .region(MKCoordinateRegion(
+            center: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
+            span: MKCoordinateSpan(latitudeDelta: 0.0018, longitudeDelta: 0.0018)
+        ))) {
+            Marker(title, coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+                .tint(Brand.red)
+        }
+        .allowsHitTesting(false)
+    }
+}
+
 struct CheckpointPreview: View {
     @Environment(\.modelContext) private var modelContext
 

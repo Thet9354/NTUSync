@@ -126,19 +126,19 @@ struct BenchesView: View {
             }
             .sheet(item: selectedBenchBinding) { bench in
                 BenchDetailView(bench: bench)
-                    .presentationDetents([.medium])
+                    .presentationDetents([.medium, .large])
             }
             .sheet(item: selectedAmenityBinding) { amenity in
                 AmenityDetailView(amenity: amenity)
-                    .presentationDetents([.medium])
+                    .presentationDetents([.medium, .large])
             }
             .sheet(item: selectedPlaceBinding) { place in
                 PlaceDetailView(place: place)
-                    .presentationDetents([.medium])
+                    .presentationDetents([.medium, .large])
             }
             .sheet(item: $searchedNode) { nodeID in
                 NodeDetailView(nodeID: nodeID)
-                    .presentationDetents([.medium])
+                    .presentationDetents([.medium, .large])
             }
             .sheet(item: $pendingCoordinate) { coordinate in
                 AddPinView(coordinate: coordinate)
@@ -426,23 +426,29 @@ struct FilterChip: View {
 
 // MARK: - Shared "Take me there"
 
+/// Wait briefly for a GPS fix and snap it to the nearest outdoor graph node.
+/// Shared by the take-me-there sheets and the Route planner's
+/// "Current location" origin.
+@MainActor
+func resolveCurrentCampusNode(env: AppEnvironment) async -> NodeID? {
+    env.location.requestPermission()
+    env.location.startUpdates()
+    for _ in 0..<6 {
+        if let fix = env.location.lastFix {
+            return await env.routeEngine.nearestNode(to: fix, where: { !$0.isIndoor })
+        }
+        try? await Task.sleep(for: .milliseconds(500))
+    }
+    return nil
+}
+
 /// One implementation of the GPS-fix → nearest-node → route → live-trip flow
 /// every detail sheet uses. Returns an error message, or nil once the trip
 /// has started.
 @MainActor
 func startTakeMeThereTrip(to destination: NodeID, named name: String,
                           env: AppEnvironment) async -> String? {
-    env.location.requestPermission()
-    env.location.startUpdates()
-    var origin: NodeID?
-    for _ in 0..<6 {
-        if let fix = env.location.lastFix {
-            origin = await env.routeEngine.nearestNode(to: fix, where: { !$0.isIndoor })
-            break
-        }
-        try? await Task.sleep(for: .milliseconds(500))
-    }
-    guard let origin else {
+    guard let origin = await resolveCurrentCampusNode(env: env) else {
         return "No location fix yet — step outside or try again."
     }
     do {
@@ -601,6 +607,11 @@ struct BenchDetailView: View {
                     }
                 }
                 Section {
+                    PlacePreview(title: bench.note ?? "Study bench",
+                                 latitude: bench.latitude, longitude: bench.longitude)
+                        .listRowInsets(EdgeInsets())
+                }
+                Section {
                     LabeledContent("Near", value: nearName)
                     Toggle("Power outlet", isOn: $bench.hasPower)
                     Toggle("Sheltered", isOn: $bench.isSheltered)
@@ -693,6 +704,11 @@ struct AmenityDetailView: View {
                     }
                 }
                 Section {
+                    PlacePreview(title: amenity.name,
+                                 latitude: amenity.latitude, longitude: amenity.longitude)
+                        .listRowInsets(EdgeInsets())
+                }
+                Section {
                     LabeledContent("Category") {
                         Label(amenity.category.displayName, systemImage: amenity.category.icon)
                             .foregroundStyle(amenity.category.tint)
@@ -770,6 +786,11 @@ struct PlaceDetailView: View {
                     }
                 }
                 Section {
+                    PlacePreview(title: place.name,
+                                 latitude: place.latitude, longitude: place.longitude)
+                        .listRowInsets(EdgeInsets())
+                }
+                Section {
                     LabeledContent("Category") {
                         Label(place.category?.displayName ?? "Custom pin", systemImage: place.icon)
                             .foregroundStyle(place.category?.tint ?? .purple)
@@ -842,6 +863,13 @@ struct NodeDetailView: View {
                     }
                 }
                 if let node = env.graph.nodes[nodeID] {
+                    Section {
+                        PlacePreview(title: env.displayName(for: nodeID),
+                                     latitude: node.coordinate.latitude,
+                                     longitude: node.coordinate.longitude,
+                                     isIndoor: node.isIndoor)
+                            .listRowInsets(EdgeInsets())
+                    }
                     Section {
                         LabeledContent("Type", value: node.isIndoor ? "Indoor location" : "Outdoor location")
                     }
